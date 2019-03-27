@@ -110,11 +110,13 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/phone_input_verify"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="请输入手机号码"
+                        android:inputType="number"
                         android:padding="8dp"
                         android:textColor="#333333"
                         android:textSize="14sp" />
@@ -148,11 +150,13 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/verify_code_input"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="请输入验证码"
+                        android:inputType="number"
                         android:padding="8dp"
                         android:textColor="#333333"
                         android:textSize="14sp" />
@@ -208,11 +212,13 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/phone_input_password"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="请输入手机号码"
+                        android:inputType="number"
                         android:padding="8dp"
                         android:textColor="#333333"
                         android:textSize="14sp" />
@@ -246,11 +252,13 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/password_input"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="请输入密码"
+                        android:inputType="textPassword"
                         android:padding="8dp"
                         android:textColor="#333333"
                         android:textSize="14sp" />

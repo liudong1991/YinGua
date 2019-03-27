@@ -9,11 +9,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import club.wustfly.yingua.R;
+import club.wustfly.yingua.model.event.RequestFinishEvent;
+import club.wustfly.yingua.ui.views.CustomProgressDialog;
 import club.wustfly.yingua.utils.StatusBarUtil;
 
 public class BaseActivity extends AppCompatActivity {
+
+    private CustomProgressDialog dialog;
 
     /**
      * 获取状态栏的高度
@@ -35,6 +44,8 @@ public class BaseActivity extends AppCompatActivity {
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
         StatusBarUtil.setTranslucentStatus(this);
         StatusBarUtil.setStatusBarDarkTheme(this, true);
+
+        EventBus.getDefault().register(this);
     }
 
     protected void startActivity(Class clazz) {
@@ -104,4 +115,35 @@ public class BaseActivity extends AppCompatActivity {
         void handle();
     }
 
+    public void dismissProgressDialog() {
+        if (this.dialog != null) {
+            if (this.dialog.isShowing())
+                this.dialog.dismiss();
+        }
+    }
+
+    protected void showToast(String content) {
+        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showProgressDialog() {
+        if (this.dialog == null) {
+            this.dialog = new CustomProgressDialog(this);
+        }
+        this.dialog.setTips("加载中...");
+        if (!this.dialog.isShowing()) {
+            this.dialog.show();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestFinish(RequestFinishEvent ev) {
+        dismissProgressDialog();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

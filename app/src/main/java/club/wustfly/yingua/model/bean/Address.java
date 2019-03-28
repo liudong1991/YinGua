@@ -1,6 +1,8 @@
-package club.wustfly.yingua.model;
+package club.wustfly.yingua.model.bean;
 
-public class Address {
+import club.wustfly.yingua.model.BaseModel;
+
+public class Address extends BaseModel {
 
     private String name = "";
     private String phone = "";

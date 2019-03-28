@@ -1,4 +1,4 @@
-package club.wustfly.yingua.model.resp;
+package club.wustfly.yingua.model.bean;
 
 import club.wustfly.yingua.model.BaseModel;
 
@@ -15,15 +15,15 @@ public class User extends BaseModel {
      * password :
      */
 
-    private int id;
+    private Integer id;
     private String username;
     private String phone;
     private String restime;
-    private int status;
+    private Integer status;
     private String headimg;
     private String password;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -55,7 +55,7 @@ public class User extends BaseModel {
         this.restime = restime;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 

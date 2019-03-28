@@ -14,14 +14,27 @@ import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import club.wustfly.yingua.R;
+import club.wustfly.yingua.cache.Session;
+import club.wustfly.yingua.model.bean.OrderItem;
+import club.wustfly.yingua.model.req.GetOrderListParam;
+import club.wustfly.yingua.model.resp.GetOrderListRespDto;
+import club.wustfly.yingua.net.RequestWrapper;
 import club.wustfly.yingua.ui.OrderDetailActivity;
 import club.wustfly.yingua.ui.base.BaseFragment;
 import club.wustfly.yingua.ui.handlers.RefreshLayoutHandler;
 
 public class OrderAllFragment extends BaseFragment {
+
+    private static final String TAG = OrderAllFragment.class.getSimpleName();
 
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
@@ -31,6 +44,8 @@ public class OrderAllFragment extends BaseFragment {
     RefreshLayoutHandler handler;
 
     RecyclerViewAdapter adapter = new RecyclerViewAdapter();
+
+    List<OrderItem> list = new ArrayList<>();
 
 
     @Nullable
@@ -57,20 +72,32 @@ public class OrderAllFragment extends BaseFragment {
         recycler_view.setLayoutManager(linearLayoutManager);
         recycler_view.setAdapter(adapter);
 
+        showProgressDialog();
         loadList(1);
 
     }
 
     private void loadList(int page) {
 
-        recycler_view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handler.loadFinish();
-            }
-        }, 3000);
+        if (!Session.getSession().isLogin()) return;
+
+        GetOrderListParam param = new GetOrderListParam();
+        param.setUid(Session.getSession().getUser().getId());
+        param.setOption("");
+        param.setPage(page);
+        param.setTag(TAG);
+
+        RequestWrapper.getOrderList(param);
 
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void recieveGetOrderListResult(GetOrderListRespDto orderListRespDto) {
+        if (!TAG.equals(orderListRespDto.getTag())) return;
+        handler.loadSuccess(list, orderListRespDto.getOrder());
+        adapter.notifyDataSetChanged();
+    }
+
 
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -84,9 +111,11 @@ public class OrderAllFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+            OrderItem orderItem = list.get(i);
+
             String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
 
-            String[] values = {"30张", "A4", "单面", "黑白", "每版1页", "1份", "不装订"};
+            String[] values = {orderItem.getPage() + "张", orderItem.getSize(), orderItem.getIssingle(), orderItem.getColor(), orderItem.getLayout(), orderItem.getNumber() + "份", "不装订"};
 
             viewHolder.order_detail.removeAllViews();
             for (int j = 0; j < labels.length; j++) {
@@ -108,7 +137,7 @@ public class OrderAllFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return 4;
+            return list.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

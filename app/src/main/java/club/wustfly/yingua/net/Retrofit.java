@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import club.wustfly.yingua.common.Constants;
 import club.wustfly.yingua.net.interceptors.AddHeaderInterceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -28,7 +29,7 @@ public class Retrofit {
                 .build();
 
         retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
-                .baseUrl("http://www.inggua.com")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -39,6 +40,7 @@ public class Retrofit {
     public static kktService getService() {
         return kktService;
     }
+
 
     public static <T> RequestBody convert(T t) {
         String json = new Gson().toJson(t);

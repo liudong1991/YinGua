@@ -12,29 +12,37 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
-import java.util.Arrays;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import club.wustfly.yingua.R;
+import club.wustfly.yingua.common.Constants;
+import club.wustfly.yingua.model.bean.BannerItem;
+import club.wustfly.yingua.model.resp.GetBannerImgRespDto;
+import club.wustfly.yingua.net.RequestWrapper;
 import club.wustfly.yingua.ui.PrintDocumentActivity;
 import club.wustfly.yingua.ui.base.BaseFragment;
 
 public class MainPageFragment extends BaseFragment {
 
     @BindView(R.id.banner)
-    MZBannerView banner;
+    MZBannerView<BannerItem> banner;
     @BindView(R.id.location_module)
     RelativeLayout location_module;
     @BindView(R.id.location_bg)
     ImageView location_bg;
 
-    Integer[] imgs = new Integer[]{R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1};
+    //Integer[] imgs = new Integer[]{R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1};
 
     @Nullable
     @Override
@@ -70,7 +78,20 @@ public class MainPageFragment extends BaseFragment {
             }
         });
         banner.setIndicatorRes(R.mipmap.banner_unselected_indicator, R.mipmap.banner_selected_indicator);
-        banner.setPages(Arrays.asList(imgs), new MZHolderCreator() {
+
+        getBannerImg();
+    }
+
+    private void getBannerImg() {
+        showProgressDialog();
+        RequestWrapper.getBannerImg();
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void recieveGetBannerImgResult(GetBannerImgRespDto bannerImgRespDto) {
+        List<BannerItem> bannerItemList = bannerImgRespDto.getBanner();
+        banner.setPages(bannerItemList, new MZHolderCreator() {
             @Override
             public MZViewHolder createViewHolder() {
                 return new BannerViewHolder();
@@ -100,7 +121,7 @@ public class MainPageFragment extends BaseFragment {
 
     }
 
-    public static class BannerViewHolder implements MZViewHolder<Integer> {
+    public class BannerViewHolder implements MZViewHolder<BannerItem> {
         private ImageView mImageView;
 
         @Override
@@ -112,9 +133,14 @@ public class MainPageFragment extends BaseFragment {
         }
 
         @Override
-        public void onBind(Context context, int position, Integer data) {
-            // 数据绑定
-            mImageView.setImageResource(data);
+        public void onBind(Context context, int position, BannerItem data) {
+
+            Glide.with(MainPageFragment.this)
+                    .load(Constants.BASE_URL + data.getImage())
+                    .placeholder(R.mipmap.banner1)
+                    .into(mImageView);
+
+
         }
     }
 }

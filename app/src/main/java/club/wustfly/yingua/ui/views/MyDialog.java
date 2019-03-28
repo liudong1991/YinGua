@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import club.wustfly.yingua.R;
-import club.wustfly.yingua.model.Address;
+import club.wustfly.yingua.model.bean.Address;
 import club.wustfly.yingua.ui.adapter.MyDialogAdapter;
 
 public class MyDialog extends Dialog {

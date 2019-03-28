@@ -1,6 +1,4 @@
-package club.wustfly.yingua.model.resp;
-
-import club.wustfly.yingua.model.BaseModel;
+package club.wustfly.yingua.model;
 
 public class RespDto extends BaseModel {
 

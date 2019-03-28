@@ -4,14 +4,17 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import club.wustfly.yingua.YinGuaApplication;
+import club.wustfly.yingua.model.RespDto;
 import club.wustfly.yingua.model.event.RequestFinishEvent;
-import club.wustfly.yingua.model.resp.RespDto;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class CallbackWrapper<T extends RespDto> implements Callback<T> {
+public class CallbackWrapper<T extends RespDto> implements Callback<T> {
 
     Callback<? extends RespDto> callback = new Callback<T>() {
         @Override
@@ -45,7 +48,20 @@ public abstract class CallbackWrapper<T extends RespDto> implements Callback<T> 
         callback.onFailure(call, t);
     }
 
-    protected abstract void onSuccess(T t);
+    protected void onSuccess(T t) {
+        ParameterizedType ptype = (ParameterizedType) getClass().getGenericSuperclass();
+        assert ptype != null;
+        Class<T> clazz = (Class<T>) ptype.getActualTypeArguments()[0];
+        try {
+            EventBus.getDefault().post(t == null ? clazz.newInstance() : t);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
 
-    protected abstract void onFail(String errorMsg);
+    protected void onFail(String errorMsg) {
+        Toast.makeText(YinGuaApplication.getInstance(), errorMsg, Toast.LENGTH_SHORT).show();
+    }
 }

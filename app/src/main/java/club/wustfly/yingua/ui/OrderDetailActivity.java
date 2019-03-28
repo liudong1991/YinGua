@@ -10,9 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import club.wustfly.yingua.R;
+import club.wustfly.yingua.model.bean.OrderDetailItem;
+import club.wustfly.yingua.model.req.GetOrderDetailParam;
+import club.wustfly.yingua.model.resp.GetOrderDetailRespDto;
+import club.wustfly.yingua.net.RequestWrapper;
 import club.wustfly.yingua.ui.base.BaseActivity;
 
 public class OrderDetailActivity extends BaseActivity {
@@ -56,6 +63,8 @@ public class OrderDetailActivity extends BaseActivity {
 
     private static String[] values = {"30张", "A4", "单面", "黑白", "每版1页", "1份", "不装订"};
 
+    Integer id;//订单id
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +82,8 @@ public class OrderDetailActivity extends BaseActivity {
         setBack();
         setHeaderBackgroundColor("#FFFFFF");
         setHeaderTopPadding();
+
+        id = getIntent().getExtras().getInt("id");
 
         label1.post(new Runnable() {
             @Override
@@ -106,6 +117,23 @@ public class OrderDetailActivity extends BaseActivity {
         }
 
         initStatus();
+
+        getOrderDetail();
+
+    }
+
+    private void getOrderDetail() {
+        GetOrderDetailParam param = new GetOrderDetailParam();
+        param.setId(id);
+
+        showProgressDialog();
+        RequestWrapper.getOrderDetail(param);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void recieveGetOrderDetailResult(GetOrderDetailRespDto respDto) {
+        OrderDetailItem order = respDto.getOrder();
+        Integer status = order.getStatus();
 
     }
 

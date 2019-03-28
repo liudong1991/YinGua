@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +20,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import club.wustfly.yingua.MainActivity;
 import club.wustfly.yingua.R;
+import club.wustfly.yingua.cache.Session;
+import club.wustfly.yingua.model.event.LoginFinishEvent;
 import club.wustfly.yingua.model.req.LoginParam;
 import club.wustfly.yingua.model.resp.LoginRespDto;
 import club.wustfly.yingua.net.RequestWrapper;
@@ -176,7 +177,6 @@ public class LoginActivity extends BaseActivity {
                 m_code_login.setVisibility(View.GONE);
                 yz_code_login_label.setTextColor(Color.parseColor("#FBDC19"));
                 m_code_login_label.setTextColor(Color.parseColor("#333333"));
-                Log.i("wust", ContextCompat.getDrawable(this, R.mipmap.login_type_dot).toString());
                 yz_code_login_label.setCompoundDrawablesWithIntrinsicBounds(null, null, null, ContextCompat.getDrawable(this, R.mipmap.login_type_dot));
                 m_code_login_label.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 
@@ -244,8 +244,13 @@ public class LoginActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveLoginResult(LoginRespDto loginRespDto) {
-        //Session.getSession().login(loginResp);
+        Session.getSession().login(loginRespDto.getUser());
         startActivity(MainActivity.class);
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void customFinish(LoginFinishEvent event) {
         finish();
     }
 

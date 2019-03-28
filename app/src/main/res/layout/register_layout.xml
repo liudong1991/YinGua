@@ -64,11 +64,13 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/phone_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请输入手机号码"
+                    android:inputType="number"
                     android:padding="8dp"
                     android:textColor="#333333"
                     android:textSize="14sp" />
@@ -102,16 +104,19 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/verify_code_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请输入验证码"
+                    android:inputType="number"
                     android:padding="8dp"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/recieve_verify_code_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginLeft="8dp"
@@ -154,6 +159,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/password_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -192,6 +198,7 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/password_re_input"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -209,7 +216,7 @@
                 android:background="#E6E6E6" />
 
             <TextView
-                android:id="@+id/login_btn"
+                android:id="@+id/register_btn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_gravity="center_horizontal"
@@ -232,8 +239,8 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:button="@drawable/register_agreement_check_selector" />
+                    android:button="@drawable/register_agreement_check_selector"
+                    android:checked="true" />
 
                 <TextView
                     android:layout_width="wrap_content"

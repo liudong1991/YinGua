@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import club.wustfly.yingua.R;
 import club.wustfly.yingua.model.bean.OrderDetailItem;
+import club.wustfly.yingua.model.bean.Staff;
 import club.wustfly.yingua.model.req.GetOrderDetailParam;
 import club.wustfly.yingua.model.resp.GetOrderDetailRespDto;
 import club.wustfly.yingua.net.RequestWrapper;
@@ -58,10 +59,39 @@ public class OrderDetailActivity extends BaseActivity {
     LinearLayout payed_status_container;
     @BindView(R.id.delete_order_btn)
     TextView delete_order_btn;
+    @BindView(R.id.sender_name_txt)
+    TextView sender_name_txt;
+    @BindView(R.id.sender_phone_txt)
+    TextView sender_phone_txt;
+    @BindView(R.id.address_name_txt)
+    TextView address_name_txt;
+    @BindView(R.id.address_phone_txt)
+    TextView address_phone_txt;
+    @BindView(R.id.address_txt)
+    TextView address_txt;
+    @BindView(R.id.order_id_txt)
+    TextView order_id_txt;
+    @BindView(R.id.goods_total_fee)
+    TextView goods_total_fee;
+    @BindView(R.id.wrapper_fee)
+    TextView wrapper_fee;
+    @BindView(R.id.order_total_fee)
+    TextView order_total_fee;
+    @BindView(R.id.real_pay_amount)
+    TextView real_pay_amount;
+    @BindView(R.id.order_id)
+    TextView order_id;
+    @BindView(R.id.create_time_txt)
+    TextView create_time_txt;
+    @BindView(R.id.send_time_txt)
+    TextView send_time_txt;
+    @BindView(R.id.deal_time_txt)
+    TextView deal_time_txt;
 
-    private static String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
 
-    private static String[] values = {"30张", "A4", "单面", "黑白", "每版1页", "1份", "不装订"};
+    private String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
+
+    private String[] values = {"30张", "A4", "单面", "黑白", "每版1页", "1份", "不装订"};
 
     Integer id;//订单id
 
@@ -82,7 +112,7 @@ public class OrderDetailActivity extends BaseActivity {
         setBack();
         setHeaderBackgroundColor("#FFFFFF");
         setHeaderTopPadding();
-
+        // todo:传入订单号
         id = getIntent().getExtras().getInt("id");
 
         label1.post(new Runnable() {
@@ -106,6 +136,12 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
 
+        fillOrderDetail();
+        getOrderDetail();
+
+    }
+
+    private void fillOrderDetail() {
         order_detail.removeAllViews();
         for (int i = 0; i < labels.length; i++) {
             View view = LayoutInflater.from(this).inflate(R.layout.pay_order_detail_item_layout, null);
@@ -115,11 +151,6 @@ public class OrderDetailActivity extends BaseActivity {
             valueTxt.setText(values[i]);
             order_detail.addView(view);
         }
-
-        initStatus();
-
-        getOrderDetail();
-
     }
 
     private void getOrderDetail() {
@@ -133,7 +164,50 @@ public class OrderDetailActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void recieveGetOrderDetailResult(GetOrderDetailRespDto respDto) {
         OrderDetailItem order = respDto.getOrder();
-        Integer status = order.getStatus();
+        Integer sts = order.getStatus();
+        switch (sts) {
+            case 1:
+                status = STATUS_UNPAY;
+                break;
+            case 2:
+            case 3:
+                status = STATUS_PAYED;
+                break;
+            case 4:
+                status = STATUS_FINISHED;
+                break;
+        }
+        initStatus();
+
+        fillData(order);
+
+    }
+
+    private void fillData(OrderDetailItem order) {
+        Staff staff = order.getStaff();
+        if (staff != null) {
+            sender_name_txt.setText(staff.getStaffname());
+            sender_phone_txt.setText(staff.getPhone());
+        }
+
+        address_name_txt.setText(order.getConsignee());
+        address_phone_txt.setText(order.getPhone());
+        address_txt.setText(order.getAddress());
+
+        order_id_txt.setText(order.getOrdernum());
+
+        values = new String[]{order.getPage() + "张", "A4", "单面", "黑白", "每版1页", order.getNumber() + "份", "不装订"};
+        fillOrderDetail();
+
+        goods_total_fee.setText("￥" + order.getGoodprice());
+        wrapper_fee.setText("￥" + order.getPackfree());
+        order_total_fee.setText("￥" + order.getTotal());
+        real_pay_amount.setText("￥" + order.getTotal());
+
+        order_id.setText(order.getOrdernum());
+        create_time_txt.setText(order.getAddtime());
+        send_time_txt.setText(order.getDeliverytime());
+        deal_time_txt.setText(order.getFinishtime());
 
     }
 

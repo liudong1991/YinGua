@@ -11,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -25,9 +29,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import club.wustfly.yingua.MainActivity;
 import club.wustfly.yingua.R;
 import club.wustfly.yingua.common.Constants;
 import club.wustfly.yingua.model.bean.BannerItem;
+import club.wustfly.yingua.model.event.ReLocateEvent;
 import club.wustfly.yingua.model.resp.GetBannerImgRespDto;
 import club.wustfly.yingua.net.RequestWrapper;
 import club.wustfly.yingua.ui.PrintDocumentActivity;
@@ -41,6 +47,12 @@ public class MainPageFragment extends BaseFragment {
     RelativeLayout location_module;
     @BindView(R.id.location_bg)
     ImageView location_bg;
+    @BindView(R.id.location_txt)
+    TextView location_txt;
+    @BindView(R.id.service_status_txt)
+    TextView service_status_txt;
+    @BindView(R.id.re_locate_btn)
+    TextView re_locate_btn;
 
     //Integer[] imgs = new Integer[]{R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1, R.mipmap.banner1};
 
@@ -99,6 +111,12 @@ public class MainPageFragment extends BaseFragment {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void recieveLocationResult(BDLocation location) {
+        location_txt.setText(location.getAddrStr());
+        showToast("位置已更新");
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -111,11 +129,15 @@ public class MainPageFragment extends BaseFragment {
         banner.pause();
     }
 
-    @OnClick({R.id.label_title1_container})
+    @OnClick({R.id.label_title1_container, R.id.re_locate_btn})
     public void handleClick(View view) {
         switch (view.getId()) {
             case R.id.label_title1_container:
                 startActivity(new Intent(getContext(), PrintDocumentActivity.class));
+                break;
+            case R.id.re_locate_btn:
+                // re_locate_btn.setEnabled(false);
+                EventBus.getDefault().post(new ReLocateEvent());
                 break;
         }
 

@@ -5,7 +5,6 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import club.wustfly.yingua.YinGuaApplication;
 import club.wustfly.yingua.model.RespDto;
@@ -14,7 +13,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CallbackWrapper<T extends RespDto> implements Callback<T> {
+public abstract class AbsCallbackWrapper<T extends RespDto> implements Callback<T> {
 
     Callback<? extends RespDto> callback = new Callback<T>() {
         @Override
@@ -50,7 +49,6 @@ public class CallbackWrapper<T extends RespDto> implements Callback<T> {
 
     protected void onSuccess(T t) {
         ParameterizedType ptype = (ParameterizedType) getClass().getGenericSuperclass();
-        assert ptype != null;
         Class<T> clazz = (Class<T>) ptype.getActualTypeArguments()[0];
         try {
             EventBus.getDefault().post(t == null ? clazz.newInstance() : t);

@@ -47,6 +47,9 @@ public class OrderAllFragment extends BaseFragment {
 
     List<OrderItem> list = new ArrayList<>();
 
+    String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
+
+
 
     @Nullable
     @Override
@@ -113,7 +116,6 @@ public class OrderAllFragment extends BaseFragment {
 
             OrderItem orderItem = list.get(i);
 
-            String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
 
             String[] values = {orderItem.getPage() + "张", orderItem.getSize(), orderItem.getIssingle(), orderItem.getColor(), orderItem.getLayout(), orderItem.getNumber() + "份", "不装订"};
 

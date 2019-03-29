@@ -152,6 +152,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/sender_name_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="陈先生"
@@ -174,6 +175,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/sender_phone_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="13788889999"
@@ -296,6 +298,7 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/order_id_txt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -488,6 +491,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/order_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -513,6 +517,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/create_time_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -545,6 +550,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/send_time_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -570,6 +576,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/deal_time_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"

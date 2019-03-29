@@ -2,12 +2,22 @@ package club.wustfly.yingua;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
+
+import club.wustfly.yingua.loc.LocationService;
+
 public class YinGuaApplication extends Application {
 
     private static YinGuaApplication instance;
 
+    public static LocationService locationService;
+
     public static YinGuaApplication getInstance() {
         return instance;
+    }
+
+    public static LocationService getLocationService() {
+        return locationService;
     }
 
     @Override
@@ -16,5 +26,11 @@ public class YinGuaApplication extends Application {
 
         instance = this;
 
+        locationService = new LocationService(getApplicationContext());
+
+        SDKInitializer.initialize(getApplicationContext());
+
     }
+
+
 }

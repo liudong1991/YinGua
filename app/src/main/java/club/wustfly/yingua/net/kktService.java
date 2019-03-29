@@ -7,6 +7,7 @@ import club.wustfly.yingua.model.resp.GetOrderListRespDto;
 import club.wustfly.yingua.model.resp.LoginRespDto;
 import club.wustfly.yingua.model.resp.ModifyNicknameRespDto;
 import club.wustfly.yingua.model.resp.RegisterRespDto;
+import club.wustfly.yingua.model.resp.SelectPayRespDto;
 import club.wustfly.yingua.model.resp.WXLoginRespDto;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -48,5 +49,9 @@ public interface kktService {
 
     @GET("/home/order/orderinfo")
     Call<GetOrderDetailRespDto> getOrderDetail(@Query("id") int id);
+
+    @GET("/home/order/paymode")
+    Call<SelectPayRespDto> selectPay(@Query("oid") String oid);
+
 
 }

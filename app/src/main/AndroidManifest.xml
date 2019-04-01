@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="club.wustfly.yingua">
+    package="club.wustfly.inggua">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,12 +13,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".YinGuaApplication"
+        android:name="club.wustfly.inggua.YinGuaApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
@@ -29,22 +29,28 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" >
-        </service>
+            android:process=":remote" />
 
-        <activity android:name=".ui.LauncherActivity">
+        <activity android:name="club.wustfly.inggua.ui.LauncherActivity">
 
         </activity>
 
         <activity
-            android:name=".ui.GuidePageActivity"
+            android:name="club.wustfly.inggua.ui.GuidePageActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="club.wustfly.inggua.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name="club.wustfly.inggua.ui.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,90 +59,99 @@
         </activity>
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name="club.wustfly.inggua.ui.RegisterActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name="club.wustfly.inggua.ui.ForgetPasswordActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.ForgetPasswordActivity"
+            android:name="club.wustfly.inggua.ui.ThirdPartyLoginActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.ThirdPartyLoginActivity"
+            android:name="club.wustfly.inggua.ui.PersonalInfoActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.PersonalInfoActivity"
+            android:name="club.wustfly.inggua.ui.ModifyNicknameActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.ModifyNicknameActivity"
+            android:name="club.wustfly.inggua.ui.HowToUseActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.HowToUseActivity"
+            android:name="club.wustfly.inggua.ui.AboutUsActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.AboutUsActivity"
+            android:name="club.wustfly.inggua.ui.ServiceAgreementActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.ServiceAgreementActivity"
+            android:name="club.wustfly.inggua.ui.PrintDocumentActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.PrintDocumentActivity"
+            android:name="club.wustfly.inggua.ui.MyDocmentActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.MyDocmentActivity"
+            android:name="club.wustfly.inggua.ui.EditPrintActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.EditPrintActivity"
+            android:name="club.wustfly.inggua.ui.ConfirmOrderActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.ConfirmOrderActivity"
+            android:name="club.wustfly.inggua.ui.SelectPayChannelActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.SelectPayChannelActivity"
+            android:name="club.wustfly.inggua.ui.PaySuccessActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.PaySuccessActivity"
+            android:name="club.wustfly.inggua.ui.CenterOfOrderActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.CenterOfOrderActivity"
+            android:name="club.wustfly.inggua.ui.OrderDetailActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.OrderDetailActivity"
+            android:name="club.wustfly.inggua.ui.BindPhoneNumActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:screenOrientation="portrait" />
-        <activity android:name=".wxapi.WXPayEntryActivity" />
+
+        <!--wx start-->
+        <activity
+            android:name="club.wustfly.inggua.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--wx stop-->
     </application>
 
 </manifest>

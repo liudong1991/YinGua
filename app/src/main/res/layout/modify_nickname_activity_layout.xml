@@ -21,7 +21,7 @@
         android:textColor="#333333"
         android:textSize="12sp" />
 
-    <club.wustfly.yingua.ui.views.DotLineView
+    <club.wustfly.inggua.ui.views.DotLineView
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_marginLeft="60dp"

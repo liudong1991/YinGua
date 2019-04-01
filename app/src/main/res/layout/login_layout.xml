@@ -162,6 +162,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/obtain_verify_code_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginLeft="8dp"

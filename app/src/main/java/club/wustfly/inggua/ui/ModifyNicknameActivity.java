@@ -65,6 +65,8 @@ public class ModifyNicknameActivity extends BaseActivity {
             }
         });
 
+        nickname_input.setSelection(nickname.length());
+
     }
 
 

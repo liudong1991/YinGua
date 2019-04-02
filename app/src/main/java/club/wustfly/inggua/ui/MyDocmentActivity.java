@@ -4,16 +4,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import club.wustfly.inggua.R;
+import club.wustfly.inggua.cache.Session;
+import club.wustfly.inggua.model.bean.DocumentItem;
+import club.wustfly.inggua.model.req.ObtainMyDocumentParam;
+import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
+import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.adapter.MyDocumentAdapter;
 import club.wustfly.inggua.ui.base.BaseActivity;
 
@@ -27,11 +37,13 @@ public class MyDocmentActivity extends BaseActivity {
     TextView print_btn;
 
 
-    List<String> list = Arrays.asList(new String[]{"", "", "", "", ""});
+    List<DocumentItem> list = new ArrayList<>();
 
     MyDocumentAdapter adapter;
 
     IOnSubtitle iOnSubtitle;
+
+    int type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +88,9 @@ public class MyDocmentActivity extends BaseActivity {
         setHeaderTopPadding();
 
 
-        adapter = new MyDocumentAdapter(this, list, print_btn);
+        type = getIntent().getIntExtra("type", 0);
+
+        adapter = new MyDocumentAdapter(this, list, print_btn, type);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -84,11 +98,27 @@ public class MyDocmentActivity extends BaseActivity {
 
         recycler_view.setAdapter(adapter);
 
+        obtainMyDocument();
+
+    }
+
+    private void obtainMyDocument() {
+        ObtainMyDocumentParam param = new ObtainMyDocumentParam();
+        param.setUid(Session.getSession().getUser().getId() + "");
+        param.setType(type);
+
+        showProgressDialog();
+        RequestWrapper.obtainMyDocument(param);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void obtainMyDocumentResult(ObtainMyDocumentRespDto respDto) {
+        Log.i("wust-lz", respDto.getData().toString());
+        adapter.addDocumentItem(respDto.getData());
     }
 
 
     void showFooter(boolean isVisible) {
-
         footer.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 

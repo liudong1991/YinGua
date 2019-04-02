@@ -1,5 +1,6 @@
 package club.wustfly.inggua.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,11 +27,15 @@ import butterknife.OnClick;
 import club.wustfly.inggua.MainActivity;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.cache.Session;
+import club.wustfly.inggua.model.bean.User;
+import club.wustfly.inggua.model.bean.WxUserInfoBean;
 import club.wustfly.inggua.model.event.LoginFinishEvent;
 import club.wustfly.inggua.model.req.LoginParam;
 import club.wustfly.inggua.model.req.ObtainVerifyCodeRequestParam;
+import club.wustfly.inggua.model.req.WXLoginParam;
 import club.wustfly.inggua.model.resp.LoginRespDto;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
+import club.wustfly.inggua.model.resp.WXLoginRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.base.BaseActivity;
 import club.wustfly.inggua.wxapi.WXEntryActivity;
@@ -38,6 +43,8 @@ import club.wustfly.inggua.wxapi.WXEntryActivity;
 public class LoginActivity extends BaseActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+
+    private static final int WX_LOGIN_BIND_PHONE_REQUESTCODE = 1001;
 
     @BindView(R.id.yz_code_login_label)
     TextView yz_code_login_label;
@@ -65,6 +72,8 @@ public class LoginActivity extends BaseActivity {
     String password = "";
 
     String type = "1";
+
+    User user;
 
     private IWXAPI api;
 
@@ -314,4 +323,44 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveWxLogin(WxUserInfoBean wxUserInfoBean) {
+        showProgressDialog();
+        wxLogin(wxUserInfoBean.getOpenid(), wxUserInfoBean.getNickname());
+    }
+
+    private void wxLogin(String openid, String nickname) {
+        WXLoginParam param = new WXLoginParam();
+        param.setOpenid(openid);
+        param.setNickname(nickname);
+        showProgressDialog();
+        RequestWrapper.wxLogin(param);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveWxLoginResult(WXLoginRespDto wxLoginRespDto) {
+        user = wxLoginRespDto.getUser();
+        if (user.getPhone() == null || user.getPhone().isEmpty()) {
+            Intent intent = new Intent(this, BindPhoneNumActivity.class);
+            intent.putExtra("uid", user.getId());
+            startActivityForResult(intent, WX_LOGIN_BIND_PHONE_REQUESTCODE);
+            return;
+        }
+        Session.getSession().login(user);
+        startActivity(MainActivity.class);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == WX_LOGIN_BIND_PHONE_REQUESTCODE && resultCode == RESULT_OK) {
+            String phone = data.getStringExtra("phone");
+            user.setPhone(phone);
+            Session.getSession().login(user);
+            startActivity(MainActivity.class);
+            finish();
+        }
+    }
 }

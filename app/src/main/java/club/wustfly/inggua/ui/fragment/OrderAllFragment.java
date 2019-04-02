@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.cache.Session;
 import club.wustfly.inggua.model.bean.OrderItem;
+import club.wustfly.inggua.model.event.RequestFinishEvent;
 import club.wustfly.inggua.model.req.GetOrderListParam;
 import club.wustfly.inggua.model.resp.GetOrderListRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
@@ -48,7 +49,6 @@ public class OrderAllFragment extends BaseFragment {
     List<OrderItem> list = new ArrayList<>();
 
     String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
-
 
 
     @Nullable
@@ -101,6 +101,11 @@ public class OrderAllFragment extends BaseFragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void requestFinish(RequestFinishEvent ev) {
+        super.requestFinish(ev);
+        handler.loadFinish();
+    }
 
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 

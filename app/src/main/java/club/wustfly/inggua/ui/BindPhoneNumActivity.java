@@ -1,5 +1,6 @@
 package club.wustfly.inggua.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -18,7 +19,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import club.wustfly.inggua.MainActivity;
 import club.wustfly.inggua.R;
+import club.wustfly.inggua.model.req.BindPhoneNumParam;
 import club.wustfly.inggua.model.req.ObtainVerifyCodeRequestParam;
+import club.wustfly.inggua.model.resp.BindPhoneNumRespDto;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.base.BaseActivity;
@@ -36,6 +39,8 @@ public class BindPhoneNumActivity extends BaseActivity {
 
     String phoneNum = "";
     String verifyCode = "";
+
+    int uid;
 
     ObtainVerifyCodeRequestParam param = new ObtainVerifyCodeRequestParam();
 
@@ -55,6 +60,8 @@ public class BindPhoneNumActivity extends BaseActivity {
         setBack();
         setHeaderBackgroundColor("#FFFFFF");
         setHeaderTopPadding();
+
+        uid = getIntent().getIntExtra("uid", -1);
 
         phone_input.addTextChangedListener(new TextWatcher() {
 
@@ -119,9 +126,27 @@ public class BindPhoneNumActivity extends BaseActivity {
             case R.id.bind_btn:
                 startActivity(MainActivity.class);
                 finish();
+                bindPhoneNum();
                 break;
         }
 
+    }
+
+    private void bindPhoneNum() {
+        BindPhoneNumParam param = new BindPhoneNumParam();
+        param.setId(uid + "");
+        param.setPhone(phoneNum);
+
+        showProgressDialog();
+        RequestWrapper.bindPhoneNum(param);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveBindPhoneNumResult(BindPhoneNumRespDto respDto) {
+        showToast("绑定成功");
+        Intent intent = new Intent();
+        intent.putExtra("phone", phoneNum);
+        setResult(RESULT_OK, intent);
     }
 
     private void obtainVerifyCode() {
@@ -130,7 +155,7 @@ public class BindPhoneNumActivity extends BaseActivity {
             showToast("请输入有效的11位手机号");
             return;
         }
-        ObtainVerifyCodeRequestParam param = new ObtainVerifyCodeRequestParam();
+        param = new ObtainVerifyCodeRequestParam();
         param.setPhone(phoneNum);
         param.setType("4");
         param.setFrom(TAG);
@@ -144,4 +169,6 @@ public class BindPhoneNumActivity extends BaseActivity {
         if (!TAG.equals(respDto.getFrom())) return;
         showToast("发送成功");
     }
+
+
 }

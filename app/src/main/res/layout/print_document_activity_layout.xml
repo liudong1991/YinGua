@@ -51,6 +51,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/pdf_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
@@ -85,6 +86,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/ppt_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="14dp"
@@ -139,6 +141,7 @@
             android:textStyle="bold" />
 
         <RelativeLayout
+            android:id="@+id/wx_import_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_title"
@@ -180,6 +183,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/qq_import_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
@@ -221,6 +225,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/wps_import_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"

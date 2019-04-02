@@ -14,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import club.wustfly.inggua.R;
+import club.wustfly.inggua.model.bean.DocumentItem;
 import club.wustfly.inggua.ui.EditPrintActivity;
 
 public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.ViewHolder> {
 
     Context mContext;
-    List<String> list;
+    List<DocumentItem> list;
 
     List<Boolean> status;
 
@@ -27,10 +28,13 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
 
     boolean isPatch = false;
 
-    public MyDocumentAdapter(Context context, List<String> list, TextView printBtn) {
+    int type;
+
+    public MyDocumentAdapter(Context context, List<DocumentItem> list, TextView printBtn, int type) {
         this.mContext = context;
         this.list = list;
         this.mPrintBtn = printBtn;
+        this.type = type;
         initStatus();
     }
 
@@ -82,7 +86,6 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
                 public void onClick(View view) {
                     viewHolder.doc_select_logo.setImageResource(!status.get(i) ? R.mipmap.doc_selected_logo : R.mipmap.doc_unselect_logo);
                     status.set(i, !status.get(i));
-
                     printBtnStatus();
                 }
             });
@@ -97,6 +100,21 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
                     mContext.startActivity(new Intent(mContext, EditPrintActivity.class));
                 }
             });
+        }
+
+        viewHolder.fileNameTxt.setText(list.get(i).getFilename());
+        viewHolder.fileTimeTxt.setText(list.get(i).getAddtime());
+        viewHolder.pagesTxt.setText(list.get(i).getPage() + "页");
+        switch (type) {
+            case 1:
+                viewHolder.logo.setImageResource(R.mipmap.doc_logo);
+                break;
+            case 2:
+                viewHolder.logo.setImageResource(R.mipmap.pdf_logo);
+                break;
+            case 3:
+                viewHolder.logo.setImageResource(R.mipmap.ppt_logo);
+                break;
         }
 
     }
@@ -121,6 +139,8 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
             mPrintBtn.setBackgroundResource(R.drawable.my_doc_print_btn_bg_disable);
             mPrintBtn.setOnClickListener(null);
         }
+
+
     }
 
     @Override
@@ -141,8 +161,16 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
             logo = itemView.findViewById(R.id.logo);
             fileNameTxt = itemView.findViewById(R.id.file_name);
             pagesTxt = itemView.findViewById(R.id.pages);
-            fileNameTxt = itemView.findViewById(R.id.file_time);
+            fileTimeTxt = itemView.findViewById(R.id.file_time);
             doc_select_logo = itemView.findViewById(R.id.doc_select_logo);
         }
+    }
+
+    public void addDocumentItem(List<DocumentItem> dataList) {
+        if (dataList == null) return;
+        list.clear();
+        list.addAll(dataList);
+        initStatus();
+        notifyDataSetChanged();
     }
 }

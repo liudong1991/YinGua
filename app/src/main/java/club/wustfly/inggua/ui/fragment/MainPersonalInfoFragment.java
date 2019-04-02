@@ -7,10 +7,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import club.wustfly.inggua.R;
+import club.wustfly.inggua.cache.Session;
+import club.wustfly.inggua.common.Constants;
 import club.wustfly.inggua.ui.AboutUsActivity;
 import club.wustfly.inggua.ui.CenterOfOrderActivity;
 import club.wustfly.inggua.ui.HowToUseActivity;
@@ -18,6 +25,11 @@ import club.wustfly.inggua.ui.PersonalInfoActivity;
 import club.wustfly.inggua.ui.base.BaseFragment;
 
 public class MainPersonalInfoFragment extends BaseFragment {
+
+    @BindView(R.id.logo)
+    ImageView logo;
+    @BindView(R.id.name)
+    TextView name;
 
     @Nullable
     @Override
@@ -46,5 +58,13 @@ public class MainPersonalInfoFragment extends BaseFragment {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Glide.with(getContext())
+                .load(Constants.BASE_URL + Session.getSession().getUser().getHeadimg())
+                .placeholder(R.mipmap.personal_info_logo)
+                .into(logo);
+        name.setText(Session.getSession().getUser().getUsername());
+    }
 }

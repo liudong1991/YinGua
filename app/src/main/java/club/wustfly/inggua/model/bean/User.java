@@ -6,13 +6,14 @@ public class User extends BaseModel {
 
 
     /**
-     * id : 1
-     * username : 序章
-     * phone : 16620021030
-     * restime : 1551429755
+     * id : 7
+     * username : 阿東
+     * phone : null
+     * restime : 1554167080
      * status : 1
      * headimg : /static/upload/headimg/default.png
-     * password :
+     * password : null
+     * openid : orr811igKUKkEZe-s8k0lG-BrO14
      */
 
     private Integer id;
@@ -22,6 +23,7 @@ public class User extends BaseModel {
     private Integer status;
     private String headimg;
     private String password;
+    private String openid;
 
     public Integer getId() {
         return id;
@@ -77,5 +79,13 @@ public class User extends BaseModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
     }
 }

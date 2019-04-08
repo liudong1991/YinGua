@@ -233,7 +233,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:text="单面"
+                    android:text="单页"
                     android:textColor="#999999"
                     android:textSize="14sp" />
 
@@ -372,6 +372,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/coupon_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -398,11 +399,23 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/total_page_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/total_label"
-                    android:text="30页  27.00元"
+                    android:text="30页"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/total_fee_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/total_page_txt"
+                    android:text="27.00元"
                     android:textColor="#333333"
                     android:textSize="13sp" />
 

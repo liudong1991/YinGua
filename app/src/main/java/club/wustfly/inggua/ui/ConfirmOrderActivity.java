@@ -1,5 +1,6 @@
 package club.wustfly.inggua.ui;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import club.wustfly.inggua.R;
+import club.wustfly.inggua.model.bean.Address;
+import club.wustfly.inggua.model.bean.GoodItem;
 import club.wustfly.inggua.ui.base.BaseActivity;
 import club.wustfly.inggua.ui.views.SelectSendTimeDialog;
 
@@ -26,6 +31,13 @@ public class ConfirmOrderActivity extends BaseActivity {
     LinearLayout order_content;
     @BindView(R.id.divider_bar)
     ImageView divider_bar;
+
+    Address address;
+    GoodItem good;
+    int page;
+    int num;
+    int condition;
+    int discount;
 
 
     @Override
@@ -45,6 +57,23 @@ public class ConfirmOrderActivity extends BaseActivity {
         setBack();
         setHeaderBackgroundColor("#FFFFFF");
         setHeaderTopPadding();
+
+        Intent intent = getIntent();
+//        intent.putExtra("address", address.toString());
+//        intent.putExtra("good", item.toString());
+//        intent.putExtra("num", num);
+//        intent.putExtra("page", realPaperPage * num);
+//        intent.putExtra("boundstr", boundStr);
+        Gson gson = new Gson();
+        address = gson.fromJson(intent.getStringExtra("address"), Address.class);
+        good = gson.fromJson(intent.getStringExtra("good"), GoodItem.class);
+        page = intent.getIntExtra("page", 1);
+        num = intent.getIntExtra("num", 1);
+        String boundstr = intent.getStringExtra("boundstr");
+        String[] boundStrs = boundstr.split(";");
+        condition = Integer.parseInt(boundStrs[0]);
+        discount = Integer.parseInt(boundStrs[1]);
+
 
         divider_bar.post(new Runnable() {
             @Override
@@ -71,8 +100,6 @@ public class ConfirmOrderActivity extends BaseActivity {
             value.setText(values[i]);
             order_content.addView(view);
         }
-
-
     }
 
     @OnClick({R.id.select_send_time, R.id.submit_order})

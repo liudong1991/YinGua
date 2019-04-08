@@ -81,7 +81,7 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
         if (isPatch) {
             viewHolder.doc_select_logo.setVisibility(View.VISIBLE);
             viewHolder.doc_select_logo.setImageResource(status.get(i) ? R.mipmap.doc_selected_logo : R.mipmap.doc_unselect_logo);
-            viewHolder.doc_select_logo.setOnClickListener(new View.OnClickListener() {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     viewHolder.doc_select_logo.setImageResource(!status.get(i) ? R.mipmap.doc_selected_logo : R.mipmap.doc_unselect_logo);
@@ -90,14 +90,16 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
                 }
             });
 
-            viewHolder.itemView.setOnClickListener(null);
+            // viewHolder.itemView.setOnClickListener(null);
 
         } else {
             viewHolder.doc_select_logo.setVisibility(View.GONE);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, EditPrintActivity.class));
+                    Intent intent = new Intent(mContext, EditPrintActivity.class);
+                    intent.putExtra("fid", list.get(i).getId() + "");
+                    mContext.startActivity(intent);
                 }
             });
         }
@@ -132,7 +134,9 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
             mPrintBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, EditPrintActivity.class));
+                    Intent intent = new Intent(mContext, EditPrintActivity.class);
+                    intent.putExtra("fid", assembleFid());
+                    mContext.startActivity(intent);
                 }
             });
         } else {
@@ -141,6 +145,18 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
         }
 
 
+    }
+
+    private String assembleFid() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            if (status.get(i)) {
+                sb.append(list.get(i).getId());
+                sb.append(",");
+            }
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        return sb.toString();
     }
 
     @Override

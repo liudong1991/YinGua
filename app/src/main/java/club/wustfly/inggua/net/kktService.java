@@ -7,10 +7,13 @@ import club.wustfly.inggua.model.resp.GetOrderDetailRespDto;
 import club.wustfly.inggua.model.resp.GetOrderListRespDto;
 import club.wustfly.inggua.model.resp.LoginRespDto;
 import club.wustfly.inggua.model.resp.ModifyNicknameRespDto;
+import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.model.resp.RegisterRespDto;
 import club.wustfly.inggua.model.resp.SelectPayRespDto;
+import club.wustfly.inggua.model.resp.UpdateAddressRespDto;
+import club.wustfly.inggua.model.resp.UpdateHeadImgRespDto;
 import club.wustfly.inggua.model.resp.UploadFileRespDto;
 import club.wustfly.inggua.model.resp.WXLoginRespDto;
 import okhttp3.RequestBody;
@@ -60,5 +63,14 @@ public interface kktService {
 
     @GET("/home/user/myfile")
     Call<ObtainMyDocumentRespDto> obtainMyDocment(@Query("uid") String uid, @Query("type") int type);
+
+    @GET("/home/order/edit")
+    Call<ObtainEditRespDto> obtainEdit(@Query("uid") int uid, @Query("fid") String fid);
+
+    @POST("/home/order/updateAddress")
+    Call<UpdateAddressRespDto> updateAddress(@Body RequestBody route);
+
+    @POST("/home/user/updatehead")
+    Call<UpdateHeadImgRespDto> updateHeadImg(@Body RequestBody route);
 
 }

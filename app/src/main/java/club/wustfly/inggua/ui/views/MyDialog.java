@@ -46,9 +46,9 @@ public class MyDialog extends Dialog {
 
     public enum MyDialogType {
         SELCT_BOOKBINDING("选择装订", new String[]{"不装订", "左上角装订", "左侧装订", "上侧装订"}),
-        EDIT_LAYOUT("编辑布局", new String[]{"每版打印1页", "每版打印2页", "每版打印4页", "每版打印6页"}),
+        EDIT_LAYOUT("编辑布局", new String[]{"每版1页", "每版2页", "每版4页", "每版6页"}),
         EDIT_COLOR("编辑颜色", new String[]{"黑白", "彩色"}),
-        EDIT_SINGLE_DOUBLE_PAGE("编辑单双面", new String[]{"单面", "双面"}),
+        EDIT_SINGLE_DOUBLE_PAGE("编辑单双面", new String[]{"单页", "双页"}),
         PAPER_SPECIFICATION("纸张规格", new String[]{"A4", "A3"}),
         EDIT_ADDRESS("编辑地址", new String[]{});
 
@@ -67,6 +67,10 @@ public class MyDialog extends Dialog {
         public String[] getItems() {
             return items;
         }
+
+        public void setItems(String[] items) {
+            this.items = items;
+        }
     }
 
     MyDialog(@NonNull Context context, MyDialogType type) {
@@ -81,6 +85,7 @@ public class MyDialog extends Dialog {
 
     void setAddress(Address address) {
         this.address = address;
+        temp_address.setValue(address);
     }
 
 
@@ -90,7 +95,6 @@ public class MyDialog extends Dialog {
         Window window = getWindow();
         window.setGravity(Gravity.CENTER);
         setContentView(R.layout.my_dialog_layout);
-
 
         ButterKnife.bind(this);
         WindowManager windowManager = ((Activity) mContext).getWindowManager();
@@ -132,7 +136,7 @@ public class MyDialog extends Dialog {
                 EditText name_edit = view2.findViewById(R.id.name);
                 EditText phone_edit = view2.findViewById(R.id.phone);
                 EditText address_edit = view2.findViewById(R.id.select_send_time);
-                name_edit.setText(address.getName());
+                name_edit.setText(address.getConsignee());
                 phone_edit.setText(address.getPhone());
                 address_edit.setText(address.getAddress());
 
@@ -149,7 +153,7 @@ public class MyDialog extends Dialog {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        temp_address.setName(editable.toString());
+                        temp_address.setConsignee(editable.toString());
                     }
                 });
                 phone_edit.addTextChangedListener(new TextWatcher() {
@@ -203,6 +207,7 @@ public class MyDialog extends Dialog {
                     case EDIT_SINGLE_DOUBLE_PAGE:
                     case PAPER_SPECIFICATION:
                         status.put(type, myDialogAdapter.getSelectedIndex());
+                        dismiss();
                         break;
                     case EDIT_ADDRESS:
                         address.setValue(temp_address);
@@ -212,7 +217,6 @@ public class MyDialog extends Dialog {
                 if (mOnDialogSaveCallback != null) {
                     mOnDialogSaveCallback.handle(type);
                 }
-                dismiss();
                 break;
 
         }

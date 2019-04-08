@@ -1,19 +1,30 @@
 package club.wustfly.inggua.model.bean;
 
+import android.text.TextUtils;
+
 import club.wustfly.inggua.model.BaseModel;
 
 public class Address extends BaseModel {
 
-    private String name = "";
+    private Integer id;
+    private String consignee = "";
     private String phone = "";
     private String address = "";
 
-    public String getName() {
-        return name;
+    public Integer getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
     }
 
     public String getPhone() {
@@ -33,8 +44,12 @@ public class Address extends BaseModel {
     }
 
     public void setValue(Address address) {
-        this.name = address.getName();
+        this.consignee = address.getConsignee();
         this.phone = address.getPhone();
         this.address = address.getAddress();
+    }
+
+    public boolean isOk() {
+        return !(TextUtils.isEmpty(consignee) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address));
     }
 }

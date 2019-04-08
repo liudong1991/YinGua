@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +62,7 @@ public class MainPersonalInfoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        RequestOptions options = new RequestOptions();
         Glide.with(getContext())
                 .load(Constants.BASE_URL + Session.getSession().getUser().getHeadimg())
                 .placeholder(R.mipmap.personal_info_logo)

@@ -13,10 +13,13 @@ import club.wustfly.inggua.model.req.GetOrderDetailParam;
 import club.wustfly.inggua.model.req.GetOrderListParam;
 import club.wustfly.inggua.model.req.LoginParam;
 import club.wustfly.inggua.model.req.ModifyNicknameParam;
+import club.wustfly.inggua.model.req.ObtainEditParam;
 import club.wustfly.inggua.model.req.ObtainMyDocumentParam;
 import club.wustfly.inggua.model.req.ObtainVerifyCodeRequestParam;
 import club.wustfly.inggua.model.req.RegisterParam;
 import club.wustfly.inggua.model.req.SelectPayParam;
+import club.wustfly.inggua.model.req.UpdateAddressParam;
+import club.wustfly.inggua.model.req.UpdateHeadImgParam;
 import club.wustfly.inggua.model.req.UploadFileParam;
 import club.wustfly.inggua.model.req.WXLoginParam;
 import club.wustfly.inggua.model.resp.BindPhoneNumRespDto;
@@ -26,10 +29,13 @@ import club.wustfly.inggua.model.resp.GetOrderDetailRespDto;
 import club.wustfly.inggua.model.resp.GetOrderListRespDto;
 import club.wustfly.inggua.model.resp.LoginRespDto;
 import club.wustfly.inggua.model.resp.ModifyNicknameRespDto;
+import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.model.resp.RegisterRespDto;
 import club.wustfly.inggua.model.resp.SelectPayRespDto;
+import club.wustfly.inggua.model.resp.UpdateAddressRespDto;
+import club.wustfly.inggua.model.resp.UpdateHeadImgRespDto;
 import club.wustfly.inggua.model.resp.UploadFileRespDto;
 import club.wustfly.inggua.model.resp.WXLoginRespDto;
 import okhttp3.MediaType;
@@ -137,6 +143,26 @@ public class RequestWrapper {
      */
     public static void obtainMyDocument(ObtainMyDocumentParam param) {
         Retrofit.getService().obtainMyDocment(param.getUid(), param.getType()).enqueue(new AbsCallbackWrapper<ObtainMyDocumentRespDto>() {
+        });
+    }
+
+    public static void obtainEdit(ObtainEditParam param) {
+        Retrofit.getService().obtainEdit(param.getUid(), param.getFid()).enqueue(new AbsCallbackWrapper<ObtainEditRespDto>() {
+        });
+    }
+
+    public static void updateAddress(UpdateAddressParam param) {
+        Retrofit.getService().updateAddress(Retrofit.convert(param)).enqueue(new AbsCallbackWrapper<UpdateAddressRespDto>() {
+        });
+    }
+
+    public static void updateHeadImg(UpdateHeadImgParam param) {
+        File file = new File(param.getFile());
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("uid", param.getUid() + "")
+                .addFormDataPart("headimg", file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
+        Retrofit.getService().updateHeadImg(builder.build()).enqueue(new AbsCallbackWrapper<UpdateHeadImgRespDto>() {
         });
     }
 }

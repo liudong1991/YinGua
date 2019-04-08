@@ -57,7 +57,7 @@ public class MyDialogAdapter extends RecyclerView.Adapter<MyDialogAdapter.ViewHo
             }
         });
 
-        if (type == MyDialog.MyDialogType.SELCT_BOOKBINDING) {
+        if (type == MyDialog.MyDialogType.SELCT_BOOKBINDING || type == MyDialog.MyDialogType.EDIT_LAYOUT) {
             LinearLayout view = viewHolder.itemView.findViewById(R.id.item_layout);
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             lp.width = 400;

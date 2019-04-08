@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -154,6 +155,8 @@ public class MainPageFragment extends BaseFragment {
 
         @Override
         public void onBind(Context context, int position, BannerItem data) {
+
+            RequestOptions options = new RequestOptions();
 
             Glide.with(MainPageFragment.this)
                     .load(Constants.BASE_URL + data.getImage())

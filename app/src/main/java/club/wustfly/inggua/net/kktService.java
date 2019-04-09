@@ -9,9 +9,12 @@ import club.wustfly.inggua.model.resp.LoginRespDto;
 import club.wustfly.inggua.model.resp.ModifyNicknameRespDto;
 import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
+import club.wustfly.inggua.model.resp.ObtainPayTokenRespDto;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.model.resp.RegisterRespDto;
 import club.wustfly.inggua.model.resp.SelectPayRespDto;
+import club.wustfly.inggua.model.resp.SignForRespDto;
+import club.wustfly.inggua.model.resp.SubmitOrderRespDto;
 import club.wustfly.inggua.model.resp.UpdateAddressRespDto;
 import club.wustfly.inggua.model.resp.UpdateHeadImgRespDto;
 import club.wustfly.inggua.model.resp.UploadFileRespDto;
@@ -72,5 +75,14 @@ public interface kktService {
 
     @POST("/home/user/updatehead")
     Call<UpdateHeadImgRespDto> updateHeadImg(@Body RequestBody route);
+
+    @POST("/home/order/sures")
+    Call<SubmitOrderRespDto> submitOrder(@Body RequestBody route);
+
+    @GET("/home/order/pay")
+    Call<ObtainPayTokenRespDto> obtainPayToken(@Query("paymode") int paymode, @Query("oid") int oid);
+
+    @GET("/home/order/status")
+    Call<SignForRespDto> signFor(@Query("id") int id, @Query("status") int status);
 
 }

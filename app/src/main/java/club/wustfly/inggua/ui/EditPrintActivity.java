@@ -221,6 +221,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                 if (item.getId() == null) return;
 
                 Intent intent = new Intent(this, ConfirmOrderActivity.class);
+                intent.putExtra("fid", fid);
                 intent.putExtra("address", address.toString());
                 intent.putExtra("good", item.toString());
                 intent.putExtra("num", num);

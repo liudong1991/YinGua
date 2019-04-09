@@ -6,17 +6,19 @@ public class OrderItem extends BaseModel {
 
 
     /**
-     * id : 6
-     * ordernum : 2019030655100971
+     * id : 55
+     * ordernum : 2019040957101975
      * status : 2
-     * number : 2
-     * page : 0
-     * total : 25
-     * packfree : 5
+     * number : 1
+     * page : 1
+     * total : 226.00
+     * packfree : 123.00
      * size : A3
      * issingle : 双页
      * color : 彩色
-     * layout : 每版一页
+     * layout : 123
+     * binding : 123
+     * money : 226.00
      */
 
     private Integer id;
@@ -30,12 +32,14 @@ public class OrderItem extends BaseModel {
     private String issingle;
     private String color;
     private String layout;
+    private String binding;
+    private String money;
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,7 +55,7 @@ public class OrderItem extends BaseModel {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -59,7 +63,7 @@ public class OrderItem extends BaseModel {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -67,7 +71,7 @@ public class OrderItem extends BaseModel {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
@@ -117,5 +121,21 @@ public class OrderItem extends BaseModel {
 
     public void setLayout(String layout) {
         this.layout = layout;
+    }
+
+    public String getBinding() {
+        return binding;
+    }
+
+    public void setBinding(String binding) {
+        this.binding = binding;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
     }
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -27,9 +28,12 @@ import club.wustfly.inggua.cache.Session;
 import club.wustfly.inggua.model.bean.OrderItem;
 import club.wustfly.inggua.model.event.RequestFinishEvent;
 import club.wustfly.inggua.model.req.GetOrderListParam;
+import club.wustfly.inggua.model.req.SignForParam;
 import club.wustfly.inggua.model.resp.GetOrderListRespDto;
+import club.wustfly.inggua.model.resp.SignForRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.OrderDetailActivity;
+import club.wustfly.inggua.ui.SelectPayChannelActivity;
 import club.wustfly.inggua.ui.base.BaseFragment;
 import club.wustfly.inggua.ui.handlers.RefreshLayoutHandler;
 
@@ -76,7 +80,6 @@ public class OrderAllFragment extends BaseFragment {
         recycler_view.setAdapter(adapter);
 
         showProgressDialog();
-        loadList(1);
 
     }
 
@@ -92,6 +95,12 @@ public class OrderAllFragment extends BaseFragment {
 
         RequestWrapper.getOrderList(param);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadList(1);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -119,10 +128,10 @@ public class OrderAllFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-            OrderItem orderItem = list.get(i);
+            final OrderItem orderItem = list.get(i);
 
 
-            String[] values = {orderItem.getPage() + "张", orderItem.getSize(), orderItem.getIssingle(), orderItem.getColor(), orderItem.getLayout(), orderItem.getNumber() + "份", "不装订"};
+            String[] values = new String[]{orderItem.getPage() + "张", orderItem.getSize(), orderItem.getIssingle(), orderItem.getColor(), orderItem.getLayout(), orderItem.getNumber() + "份", orderItem.getBinding()};
 
             viewHolder.order_detail.removeAllViews();
             for (int j = 0; j < labels.length; j++) {
@@ -134,10 +143,52 @@ public class OrderAllFragment extends BaseFragment {
                 viewHolder.order_detail.addView(view);
             }
 
+            viewHolder.order_id_txt.setText(orderItem.getOrdernum() + "");
+            viewHolder.wrapper_fee.setText("￥" + orderItem.getPackfree());
+            viewHolder.total_fee_txt.setText("￥" + orderItem.getMoney());
+
+            Integer status = orderItem.getStatus();
+            switch (status) {
+                case 1:
+                    viewHolder.order_status.setText("待付款");
+                    viewHolder.handler_bar.setVisibility(View.VISIBLE);
+                    viewHolder.handler_btn.setText("去支付");
+                    viewHolder.handler_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getContext(), SelectPayChannelActivity.class);
+                            intent.putExtra("oid", orderItem.getId());
+                            startActivity(intent);
+                        }
+                    });
+                    break;
+                case 2:
+                    viewHolder.order_status.setText("待配送");
+                    viewHolder.handler_bar.setVisibility(View.GONE);
+                    break;
+                case 3:
+                    viewHolder.order_status.setText("配送中");
+                    viewHolder.handler_bar.setVisibility(View.VISIBLE);
+                    viewHolder.handler_btn.setText("签收");
+                    viewHolder.handler_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            signFor(orderItem.getId());
+                        }
+                    });
+                    break;
+                case 4:
+                    viewHolder.order_status.setText("已完成");
+                    viewHolder.handler_bar.setVisibility(View.GONE);
+                    break;
+            }
+
             viewHolder.order_num_bar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getContext(), OrderDetailActivity.class));
+                    Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                    intent.putExtra("oid", orderItem.getId());
+                    startActivity(intent);
                 }
             });
         }
@@ -151,12 +202,40 @@ public class OrderAllFragment extends BaseFragment {
 
             LinearLayout order_detail;
             LinearLayout order_num_bar;
+            TextView order_id_txt;
+            TextView wrapper_fee;
+            TextView total_fee_txt;
+            TextView order_status;
+            RelativeLayout handler_bar;
+            TextView handler_btn;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 order_detail = itemView.findViewById(R.id.order_detail);
                 order_num_bar = itemView.findViewById(R.id.order_num_bar);
+                order_id_txt = itemView.findViewById(R.id.order_id_txt);
+                wrapper_fee = itemView.findViewById(R.id.wrapper_fee);
+                total_fee_txt = itemView.findViewById(R.id.total_fee_txt);
+                order_status = itemView.findViewById(R.id.order_status);
+                handler_bar = itemView.findViewById(R.id.handler_bar);
+                handler_btn = itemView.findViewById(R.id.handler_btn);
             }
         }
+    }
+
+    private void signFor(int id) {
+        SignForParam param = new SignForParam();
+        param.setTag(TAG);
+        param.setId(id);
+        param.setStatus(4);
+        showProgressDialog();
+        RequestWrapper.signFor(param);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveSignForResult(SignForRespDto respDto) {
+        if (!TAG.equals(respDto.getTag())) return;
+        showToast("签收成功");
+        loadList(1);
     }
 }

@@ -81,7 +81,12 @@ public class PersonalInfoActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveUpdateHeadImgResult(UpdateHeadImgRespDto respDto) {
         showToast("修改成功");
-
+        Session.getSession().getUser().setHeadimg(respDto.getData());
+        Session.getSession().saveLoginResp2Disk();
+        Glide.with(this)
+                .load(Constants.BASE_URL + Session.getSession().getUser().getHeadimg())
+                .placeholder(R.mipmap.profile_img)
+                .into(mIvImage);
     }
 
     @Override

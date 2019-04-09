@@ -15,9 +15,12 @@ import club.wustfly.inggua.model.req.LoginParam;
 import club.wustfly.inggua.model.req.ModifyNicknameParam;
 import club.wustfly.inggua.model.req.ObtainEditParam;
 import club.wustfly.inggua.model.req.ObtainMyDocumentParam;
+import club.wustfly.inggua.model.req.ObtainPayTokenParam;
 import club.wustfly.inggua.model.req.ObtainVerifyCodeRequestParam;
 import club.wustfly.inggua.model.req.RegisterParam;
 import club.wustfly.inggua.model.req.SelectPayParam;
+import club.wustfly.inggua.model.req.SignForParam;
+import club.wustfly.inggua.model.req.SubmitOrderParam;
 import club.wustfly.inggua.model.req.UpdateAddressParam;
 import club.wustfly.inggua.model.req.UpdateHeadImgParam;
 import club.wustfly.inggua.model.req.UploadFileParam;
@@ -31,9 +34,12 @@ import club.wustfly.inggua.model.resp.LoginRespDto;
 import club.wustfly.inggua.model.resp.ModifyNicknameRespDto;
 import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
+import club.wustfly.inggua.model.resp.ObtainPayTokenRespDto;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.model.resp.RegisterRespDto;
 import club.wustfly.inggua.model.resp.SelectPayRespDto;
+import club.wustfly.inggua.model.resp.SignForRespDto;
+import club.wustfly.inggua.model.resp.SubmitOrderRespDto;
 import club.wustfly.inggua.model.resp.UpdateAddressRespDto;
 import club.wustfly.inggua.model.resp.UpdateHeadImgRespDto;
 import club.wustfly.inggua.model.resp.UploadFileRespDto;
@@ -163,6 +169,33 @@ public class RequestWrapper {
                 .addFormDataPart("uid", param.getUid() + "")
                 .addFormDataPart("headimg", file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
         Retrofit.getService().updateHeadImg(builder.build()).enqueue(new AbsCallbackWrapper<UpdateHeadImgRespDto>() {
+        });
+    }
+
+    public static void submitOrder(SubmitOrderParam param) {
+        Retrofit.getService().submitOrder(Retrofit.convert(param)).enqueue(new AbsCallbackWrapper<SubmitOrderRespDto>() {
+        });
+    }
+
+    public static void obtainPayToken(final ObtainPayTokenParam param) {
+        Retrofit.getService().obtainPayToken(param.getPaymode(), param.getOid()).enqueue(new AbsCallbackWrapper<ObtainPayTokenRespDto>() {
+            @Override
+            protected void onSuccess(ObtainPayTokenRespDto obtainPayTokenRespDto) {
+                ObtainPayTokenRespDto respDto = obtainPayTokenRespDto == null ? new ObtainPayTokenRespDto() : obtainPayTokenRespDto;
+                respDto.setPaymode(param.getPaymode());
+                EventBus.getDefault().post(respDto);
+            }
+        });
+    }
+
+    public static void signFor(final SignForParam param) {
+        Retrofit.getService().signFor(param.getId(), param.getStatus()).enqueue(new AbsCallbackWrapper<SignForRespDto>() {
+            @Override
+            protected void onSuccess(SignForRespDto respDto) {
+                SignForRespDto signForRespDto = respDto == null ? new SignForRespDto() : respDto;
+                signForRespDto.setTag(param.getTag());
+                EventBus.getDefault().post(signForRespDto);
+            }
         });
     }
 }

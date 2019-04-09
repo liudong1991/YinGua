@@ -13,6 +13,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.mm.opensdk.utils.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
+import club.wustfly.inggua.model.event.PaySuccessEvent;
+
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
@@ -24,7 +28,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.pay_result);
 
-        api = WXAPIFactory.createWXAPI(this, "你的appid");
+        api = WXAPIFactory.createWXAPI(this, WXEntryActivity.WX_APP_ID);
         api.handleIntent(getIntent(), this);
     }
 
@@ -41,19 +45,34 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(final BaseResp resp) {
-        Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+        int errCode = resp.errCode;
+        Log.d(TAG, "onPayFinish, errCode = " + errCode);
 
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle("支付结果");
-//            builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-//            builder.show();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(WXPayEntryActivity.this, "errCode:" + resp.errCode, Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (errCode == 0) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(WXPayEntryActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        EventBus.getDefault().post(new PaySuccessEvent());
+                    }
+                });
+            } else if (errCode == -1) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(WXPayEntryActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else if (errCode == -2) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(WXPayEntryActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
+        finish();
     }
 }

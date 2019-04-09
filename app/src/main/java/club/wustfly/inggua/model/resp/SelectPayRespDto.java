@@ -5,13 +5,13 @@ import club.wustfly.inggua.model.bean.OrderItem;
 
 public class SelectPayRespDto extends RespDto {
 
-    private OrderItem orderItem;
+    private OrderItem order;
 
-    public OrderItem getOrderItem() {
-        return orderItem;
+    public OrderItem getOrder() {
+        return order;
     }
 
-    public void setOrderItem(OrderItem orderItem) {
-        this.orderItem = orderItem;
+    public void setOrder(OrderItem order) {
+        this.order = order;
     }
 }

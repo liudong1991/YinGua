@@ -39,6 +39,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/order_id_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="236859452692"
@@ -95,6 +96,7 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/total_fee_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="￥32"

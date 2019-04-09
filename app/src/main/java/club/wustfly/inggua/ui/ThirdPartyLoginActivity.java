@@ -39,7 +39,6 @@ public class ThirdPartyLoginActivity extends BaseActivity {
         setBack();
         setHeaderTopMargin();
 
-        //todo:微信登录传入openid
         openid = getIntent().getStringExtra("openid");
 
     }

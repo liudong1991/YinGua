@@ -1,27 +1,34 @@
 package club.wustfly.inggua.model.bean;
 
+import java.util.List;
+
 import club.wustfly.inggua.model.BaseModel;
 
 public class OrderDetailItem extends BaseModel {
 
 
     /**
-     * id : 6
-     * status : 4
-     * ordernum : 2019030655100971
-     * page : 0
-     * number : 2
-     * total : 25
-     * packfree : 5
-     * addtime : 1551864119
-     * deliverytime : 1551930236
-     * finishtime : 1551930307
-     * consignee : 序章
-     * phone : 16620021031
-     * address : 广东省广州海珠区海港花园
-     * sid : 1
-     * goodprice : 120
-     * staff : {"staffname":"序章","phone":"16620021031"}
+     * id : 55
+     * status : 2
+     * ordernum : 2019040957101975
+     * page : 1
+     * number : 1
+     * total : 226.00
+     * packfree : 123.00
+     * addtime : 1554792729
+     * deliverytime : null
+     * finishtime : null
+     * consignee : 刘丹
+     * phone : 17603076004
+     * address : 福永街道桥头村桥南274号
+     * sid : null
+     * money : 226.00
+     * issingle : 双页
+     * size : A3
+     * color : 彩色
+     * layout : 123
+     * binding : 123
+     * staff : []
      */
 
     private Integer id;
@@ -37,15 +44,20 @@ public class OrderDetailItem extends BaseModel {
     private String consignee;
     private String phone;
     private String address;
-    private Integer sid;
-    private Integer goodprice;
-    private Staff staff;
+    private String sid;
+    private String money;
+    private String issingle;
+    private String size;
+    private String color;
+    private String layout;
+    private String binding;
+    private List<Staff> staff;
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -53,7 +65,7 @@ public class OrderDetailItem extends BaseModel {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -69,7 +81,7 @@ public class OrderDetailItem extends BaseModel {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
@@ -77,7 +89,7 @@ public class OrderDetailItem extends BaseModel {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -145,27 +157,67 @@ public class OrderDetailItem extends BaseModel {
         this.address = address;
     }
 
-    public Integer getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 
-    public Integer getGoodprice() {
-        return goodprice;
+    public String getMoney() {
+        return money;
     }
 
-    public void setGoodprice(int goodprice) {
-        this.goodprice = goodprice;
+    public void setMoney(String money) {
+        this.money = money;
     }
 
-    public Staff getStaff() {
+    public String getIssingle() {
+        return issingle;
+    }
+
+    public void setIssingle(String issingle) {
+        this.issingle = issingle;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getLayout() {
+        return layout;
+    }
+
+    public void setLayout(String layout) {
+        this.layout = layout;
+    }
+
+    public String getBinding() {
+        return binding;
+    }
+
+    public void setBinding(String binding) {
+        this.binding = binding;
+    }
+
+    public List<Staff> getStaff() {
         return staff;
     }
 
-    public void setStaff(Staff staff) {
+    public void setStaff(List<Staff> staff) {
         this.staff = staff;
     }
 }

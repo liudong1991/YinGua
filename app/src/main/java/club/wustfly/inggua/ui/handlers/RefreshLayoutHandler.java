@@ -43,8 +43,8 @@ public class RefreshLayoutHandler {
 
     private void init() {
         this.smartRefreshLayout.setRefreshHeader(new StoreHouseHeader(smartRefreshLayout.getContext()).initWithString("YIN GUA"));
-        this.smartRefreshLayout.setRefreshFooter(new ClassicsFooter(smartRefreshLayout.getContext()));
-
+//        this.smartRefreshLayout.setRefreshFooter(new ClassicsFooter(smartRefreshLayout.getContext()));
+//
         this.smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override
@@ -54,15 +54,15 @@ public class RefreshLayoutHandler {
             }
         });
 
-        this.smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout smartRefreshLayout) {
-                prePage = curPage;
-                prePage++;
-                if (onLoadListListener != null) onLoadListListener.loadListByPage(prePage);
-            }
-        });
+//        this.smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout smartRefreshLayout) {
+//                prePage = curPage;
+//                prePage++;
+//                if (onLoadListListener != null) onLoadListListener.loadListByPage(prePage);
+//            }
+//        });
     }
 
     public void loadFinish() {

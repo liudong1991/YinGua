@@ -38,6 +38,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/total_fee_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥30"
@@ -161,7 +162,7 @@
 
         <ImageView
             android:id="@+id/divider_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@mipmap/confirm_order_divider" />
 
@@ -203,6 +204,15 @@
                     android:textSize="11sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/showTimeStr_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="14dp"
+                android:layout_toLeftOf="@+id/arrow"
+                android:textColor="#666666"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/arrow"
@@ -299,6 +309,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/discount_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -342,6 +353,7 @@
                                 android:textSize="13sp" />
 
                             <TextView
+                                android:id="@+id/good_fee_txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="￥25"

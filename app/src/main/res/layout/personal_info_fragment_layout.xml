@@ -127,14 +127,17 @@
 
     </LinearLayout>
 
-    <ImageView
+    <club.wustfly.inggua.ui.views.RoundImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@+id/personal_info_bg"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-50dp"
-        android:src="@mipmap/personal_info_logo" />
+        android:src="@mipmap/personal_info_logo"
+        app:border_color="@color/white"
+        app:border_width="3dp"
+        app:type="circle" />
 
     <TextView
         android:id="@+id/name"

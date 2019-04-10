@@ -85,7 +85,7 @@ public class PersonalInfoActivity extends BaseActivity {
         Session.getSession().saveLoginResp2Disk();
         Glide.with(this)
                 .load(Constants.BASE_URL + Session.getSession().getUser().getHeadimg())
-                .placeholder(R.mipmap.profile_img)
+                .placeholder(R.mipmap.inggua_logo)
                 .into(mIvImage);
     }
 
@@ -94,7 +94,7 @@ public class PersonalInfoActivity extends BaseActivity {
         super.onResume();
         Glide.with(this)
                 .load(Constants.BASE_URL + Session.getSession().getUser().getHeadimg())
-                .placeholder(R.mipmap.profile_img)
+                .placeholder(R.mipmap.inggua_logo)
                 .into(mIvImage);
         username_txt.setText(Session.getSession().getUser().getUsername());
     }

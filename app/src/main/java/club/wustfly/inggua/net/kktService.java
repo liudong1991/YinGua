@@ -1,6 +1,8 @@
 package club.wustfly.inggua.net;
 
 import club.wustfly.inggua.model.resp.BindPhoneNumRespDto;
+import club.wustfly.inggua.model.resp.DeleteDocRespDto;
+import club.wustfly.inggua.model.resp.DeleteOrderRespDto;
 import club.wustfly.inggua.model.resp.ForgetPwdRespDto;
 import club.wustfly.inggua.model.resp.GetBannerImgRespDto;
 import club.wustfly.inggua.model.resp.GetOrderDetailRespDto;
@@ -84,5 +86,11 @@ public interface kktService {
 
     @GET("/home/order/status")
     Call<SignForRespDto> signFor(@Query("id") int id, @Query("status") int status);
+
+    @GET("/home/user/delfile")
+    Call<DeleteDocRespDto> deleteDoc(@Query("fid") String fid);
+
+    @GET("/home/order/delorder")
+    Call<DeleteOrderRespDto> deleteOrder(@Query("id") String id);
 
 }

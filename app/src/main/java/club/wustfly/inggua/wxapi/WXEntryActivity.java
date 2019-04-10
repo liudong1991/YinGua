@@ -52,10 +52,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
     @Override
     public void onResp(BaseResp resp) {
-        String result = "";
-        if (resp != null) {
-            resp = resp;
-        }
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 String code = ((SendAuth.Resp) resp).code;
@@ -79,21 +75,21 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
                 finish();
                 break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                result = "发送取消";
-                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                finish();
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                result = "发送被拒绝";
-                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                finish();
-                break;
-            default:
-                result = "发送返回";
-                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                finish();
-                break;
+//            case BaseResp.ErrCode.ERR_USER_CANCEL:
+//                result = "发送取消";
+//                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+//                finish();
+//                break;
+//            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+//                result = "发送被拒绝";
+//                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+//                finish();
+//                break;
+//            default:
+//                result = "发送返回";
+//                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+//                finish();
+//                break;
         }
     }
 

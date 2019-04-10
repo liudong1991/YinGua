@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +36,11 @@ public class MainPersonalInfoFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.personal_info_fragment_layout, null);
         ButterKnife.bind(this, view);
+        init();
         return view;
+    }
+
+    private void init() {
     }
 
     @OnClick({R.id.logo, R.id.name, R.id.how_to_use_btn, R.id.order_center_btn, R.id.about_us_btn})
@@ -62,10 +65,9 @@ public class MainPersonalInfoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        RequestOptions options = new RequestOptions();
         Glide.with(getContext())
                 .load(Constants.BASE_URL + Session.getSession().getUser().getHeadimg())
-                .placeholder(R.mipmap.personal_info_logo)
+                .placeholder(R.mipmap.inggua_logo_big)
                 .into(logo);
         name.setText(Session.getSession().getUser().getUsername());
     }

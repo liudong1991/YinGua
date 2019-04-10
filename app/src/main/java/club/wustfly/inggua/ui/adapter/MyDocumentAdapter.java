@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import club.wustfly.inggua.R;
@@ -89,9 +90,6 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
                     printBtnStatus();
                 }
             });
-
-            // viewHolder.itemView.setOnClickListener(null);
-
         } else {
             viewHolder.doc_select_logo.setVisibility(View.GONE);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +145,7 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
 
     }
 
-    private String assembleFid() {
+    public String assembleFid() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             if (status.get(i)) {
@@ -187,6 +185,20 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
         list.clear();
         list.addAll(dataList);
         initStatus();
+        notifyDataSetChanged();
+    }
+
+    public void delete() {
+        Iterator<DocumentItem> listIter = list.iterator();
+        Iterator<Boolean> statusIter = status.iterator();
+        while (statusIter.hasNext()) {
+            listIter.next();
+            if (statusIter.next()) {
+                statusIter.remove();
+                listIter.remove();
+            }
+        }
+
         notifyDataSetChanged();
     }
 }

@@ -19,6 +19,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -76,6 +78,9 @@ public class LoginActivity extends BaseActivity {
     User user;
 
     private IWXAPI api;
+
+    int count = 0;
+    Timer timer = new Timer();
 
     ObtainVerifyCodeRequestParam param = new ObtainVerifyCodeRequestParam();
 
@@ -264,10 +269,31 @@ public class LoginActivity extends BaseActivity {
         RequestWrapper.obtainVerifyCode(param);
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void recieveObtainVerifyCodeResult(ObtainVerifyCodeRespDto respDto) {
         if (!TAG.equals(respDto.getFrom())) return;
         showToast("发送成功");
+        obtain_verify_code_btn.setEnabled(false);
+        count = 60;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        count = count - 1;
+                        if (count > 0) {
+                            obtain_verify_code_btn.setText("获取验证码(" + count + ")");
+                        } else {
+                            obtain_verify_code_btn.setText("获取验证码");
+                            obtain_verify_code_btn.setEnabled(true);
+                            timer.cancel();
+                        }
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
     private void login() {
@@ -362,5 +388,12 @@ public class LoginActivity extends BaseActivity {
             startActivity(MainActivity.class);
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+        timer = null;
     }
 }

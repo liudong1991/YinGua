@@ -6,10 +6,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -35,11 +38,16 @@ public class ForgetPasswordActivity extends BaseActivity {
     EditText password_input;
     @BindView(R.id.password_re_input)
     EditText password_re_input;
+    @BindView(R.id.recieve_verify_code_btn)
+    TextView recieve_verify_code_btn;
 
     String phone = "";
     String verifyCode = "";
     String password = "";
     String rePassword = "";
+
+    Timer timer = new Timer();
+    int count = 0;
 
     ObtainVerifyCodeRequestParam param = new ObtainVerifyCodeRequestParam();
 
@@ -178,6 +186,26 @@ public class ForgetPasswordActivity extends BaseActivity {
     public void recieveObtainVerifyCodeResult(ObtainVerifyCodeRespDto respDto) {
         if (!TAG.equals(respDto.getFrom())) return;
         showToast("发送成功");
+        recieve_verify_code_btn.setEnabled(false);
+        count = 60;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        count = count - 1;
+                        if (count > 0) {
+                            recieve_verify_code_btn.setText("获取验证码(" + count + ")");
+                        } else {
+                            recieve_verify_code_btn.setText("获取验证码");
+                            recieve_verify_code_btn.setEnabled(true);
+                            timer.cancel();
+                        }
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
     private void modifyPwd() {
@@ -220,5 +248,11 @@ public class ForgetPasswordActivity extends BaseActivity {
         showToast("密码修改成功");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+        timer = null;
+    }
 
 }

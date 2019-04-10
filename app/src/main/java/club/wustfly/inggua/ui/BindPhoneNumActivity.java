@@ -1,6 +1,7 @@
 package club.wustfly.inggua.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -41,6 +44,9 @@ public class BindPhoneNumActivity extends BaseActivity {
     String verifyCode = "";
 
     int uid;
+
+    Timer timer = new Timer();
+    int count = 0;
 
     ObtainVerifyCodeRequestParam param = new ObtainVerifyCodeRequestParam();
 
@@ -129,7 +135,6 @@ public class BindPhoneNumActivity extends BaseActivity {
                 bindPhoneNum();
                 break;
         }
-
     }
 
     private void bindPhoneNum() {
@@ -168,7 +173,34 @@ public class BindPhoneNumActivity extends BaseActivity {
     public void recieveObtainVerifyCodeResult(ObtainVerifyCodeRespDto respDto) {
         if (!TAG.equals(respDto.getFrom())) return;
         showToast("发送成功");
+        obtain_verify_code_btn.setEnabled(false);
+        count = 60;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        count = count - 1;
+                        if (count > 0) {
+                            obtain_verify_code_btn.setText("获取验证码(" + count + ")");
+                            obtain_verify_code_btn.setTextColor(Color.parseColor("#CCCCCC"));
+                        } else {
+                            obtain_verify_code_btn.setText("获取验证码");
+                            obtain_verify_code_btn.setEnabled(true);
+                            obtain_verify_code_btn.setTextColor(Color.parseColor("#3AB7FF"));
+                            timer.cancel();
+                        }
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+        timer = null;
+    }
 }

@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.ui.base.BaseActivity;
 
-public class HowToUseActivity extends BaseActivity {
+public class PrivacyStatementActivity extends BaseActivity {
 
     @BindView(R.id.content)
     WebView content;
@@ -18,13 +18,13 @@ public class HowToUseActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.how_to_use_activity_layout);
+        setContentView(R.layout.service_agreement_activity_layout);
         ButterKnife.bind(this);
         init();
     }
 
     private void init() {
-        setTitle("如何使用");
+        setTitle("隐私声明");
         setBack();
         setHeaderBackgroundColor("#FFFFFF");
         setHeaderTopPadding();
@@ -32,8 +32,7 @@ public class HowToUseActivity extends BaseActivity {
         WebSettings settings = content.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        content.loadUrl("file:////android_asset/html/HowToUse.html");
-
+        content.loadUrl("file:////android_asset/html/Secret.html");
 
     }
 }

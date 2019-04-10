@@ -8,6 +8,8 @@ import java.io.File;
 
 import club.wustfly.inggua.YinGuaApplication;
 import club.wustfly.inggua.model.req.BindPhoneNumParam;
+import club.wustfly.inggua.model.req.DeleteDocParam;
+import club.wustfly.inggua.model.req.DeleteOrderParam;
 import club.wustfly.inggua.model.req.ForgetPwdParam;
 import club.wustfly.inggua.model.req.GetOrderDetailParam;
 import club.wustfly.inggua.model.req.GetOrderListParam;
@@ -26,6 +28,8 @@ import club.wustfly.inggua.model.req.UpdateHeadImgParam;
 import club.wustfly.inggua.model.req.UploadFileParam;
 import club.wustfly.inggua.model.req.WXLoginParam;
 import club.wustfly.inggua.model.resp.BindPhoneNumRespDto;
+import club.wustfly.inggua.model.resp.DeleteDocRespDto;
+import club.wustfly.inggua.model.resp.DeleteOrderRespDto;
 import club.wustfly.inggua.model.resp.ForgetPwdRespDto;
 import club.wustfly.inggua.model.resp.GetBannerImgRespDto;
 import club.wustfly.inggua.model.resp.GetOrderDetailRespDto;
@@ -88,6 +92,11 @@ public class RequestWrapper {
                 GetOrderListRespDto respDto1 = respDto == null ? new GetOrderListRespDto() : respDto;
                 respDto1.setTag(param.getTag());
                 EventBus.getDefault().post(respDto1);
+            }
+
+            @Override
+            protected void onFail(CharSequence errorMsg) {
+                //super.onFail(errorMsg);
             }
         });
     }
@@ -196,6 +205,16 @@ public class RequestWrapper {
                 signForRespDto.setTag(param.getTag());
                 EventBus.getDefault().post(signForRespDto);
             }
+        });
+    }
+
+    public static void deleteDoc(DeleteDocParam param) {
+        Retrofit.getService().deleteDoc(param.getFid()).enqueue(new AbsCallbackWrapper<DeleteDocRespDto>() {
+        });
+    }
+
+    public static void deleteOrder(DeleteOrderParam param) {
+        Retrofit.getService().deleteOrder(param.getId()).enqueue(new AbsCallbackWrapper<DeleteOrderRespDto>() {
         });
     }
 }

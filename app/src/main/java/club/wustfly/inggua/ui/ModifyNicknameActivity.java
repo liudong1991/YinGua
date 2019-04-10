@@ -101,6 +101,7 @@ public class ModifyNicknameActivity extends BaseActivity {
         Session.getSession().getUser().setUsername(nickname);
         Session.getSession().saveLoginResp2Disk();
         showToast("修改成功");
+        finish();
     }
 
 

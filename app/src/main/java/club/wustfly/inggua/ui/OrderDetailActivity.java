@@ -31,8 +31,10 @@ import club.wustfly.inggua.MainActivity;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.model.bean.OrderDetailItem;
 import club.wustfly.inggua.model.bean.Staff;
+import club.wustfly.inggua.model.req.DeleteOrderParam;
 import club.wustfly.inggua.model.req.GetOrderDetailParam;
 import club.wustfly.inggua.model.req.SignForParam;
+import club.wustfly.inggua.model.resp.DeleteOrderRespDto;
 import club.wustfly.inggua.model.resp.GetOrderDetailRespDto;
 import club.wustfly.inggua.model.resp.SignForRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
@@ -249,7 +251,7 @@ public class OrderDetailActivity extends BaseActivity {
         } else {
             create_time_txt.setText("");
         }
-        String deliverytime = order.getDeliverytime();
+        final String deliverytime = order.getDeliverytime();
         if (!TextUtils.isEmpty(deliverytime)) {
             long l = Long.parseLong(deliverytime);
             Date date = new Date(l);
@@ -299,9 +301,22 @@ public class OrderDetailActivity extends BaseActivity {
         delete_order_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo 删除订单
+                deleteOrder();
             }
         });
+    }
+
+    private void deleteOrder() {
+        DeleteOrderParam param = new DeleteOrderParam();
+        param.setId(id + "");
+        showProgressDialog();
+        RequestWrapper.deleteOrder(param);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveDeleteOrderResult(DeleteOrderRespDto respDto) {
+        showToast("删除成功");
+        finish();
     }
 
     private void initStatus() {

@@ -75,6 +75,5 @@ dependencies {
     //implementation 'me.rosuh:AndroidFilePicker:0.4.2'
     implementation 'com.leon:lfilepickerlibrary:1.8.0'
     implementation project(path: ':pictureselector')
-    implementation project(path: ':mzbanner')
 
 }

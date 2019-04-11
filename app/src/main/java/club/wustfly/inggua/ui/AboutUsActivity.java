@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import club.wustfly.inggua.BuildConfig;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.ui.base.BaseActivity;
 
@@ -20,6 +22,8 @@ public class AboutUsActivity extends BaseActivity {
     RelativeLayout logo_container;
     @BindView(R.id.logo_bg)
     ImageView logo_bg;
+    @BindView(R.id.version_current_txt)
+    TextView version_current_txt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class AboutUsActivity extends BaseActivity {
                 logo_bg.setLayoutParams(lp);
             }
         });
+
+        version_current_txt.setText("当前版本" + BuildConfig.VERSION_NAME);
 
     }
 

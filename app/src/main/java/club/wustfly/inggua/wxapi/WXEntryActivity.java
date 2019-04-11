@@ -21,6 +21,7 @@ import java.net.URLEncoder;
 
 import club.wustfly.inggua.model.bean.WxLoginBean;
 import club.wustfly.inggua.model.bean.WxUserInfoBean;
+import club.wustfly.inggua.model.event.RequestFinishEvent;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -85,11 +86,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 //                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 //                finish();
 //                break;
-//            default:
-//                result = "发送返回";
-//                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-//                finish();
-//                break;
+            default:
+                EventBus.getDefault().post(new RequestFinishEvent());
+                finish();
+                break;
         }
     }
 

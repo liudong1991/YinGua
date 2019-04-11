@@ -239,6 +239,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void wxLogin() {
+        showProgressDialog();
         // 通过WXAPIFactory工厂获取IWXApI的示例
         api = WXAPIFactory.createWXAPI(this, WXEntryActivity.WX_APP_ID, true);
         // 将应用的appid注册到微信
@@ -351,7 +352,7 @@ public class LoginActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveWxLogin(WxUserInfoBean wxUserInfoBean) {
-        showProgressDialog();
+        //showProgressDialog();
         wxLogin(wxUserInfoBean.getOpenid(), wxUserInfoBean.getNickname());
     }
 

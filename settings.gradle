@@ -1,1 +1,1 @@
-include ':app', ':pictureselector', ':mzbanner'
+include ':app', ':pictureselector'

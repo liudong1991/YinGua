@@ -5,5 +5,4 @@ import club.wustfly.inggua.model.RespDto;
 public class BindPhoneNumRespDto extends RespDto {
 
 
-
 }

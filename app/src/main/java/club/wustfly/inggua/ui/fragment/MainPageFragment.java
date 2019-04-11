@@ -118,9 +118,11 @@ public class MainPageFragment extends BaseFragment {
                 BitmapFactory.decodeResource(getResources(), R.mipmap.banner_model, options);
                 int height = (int) (width * 1.0 / options.outWidth * options.outHeight);
                 //Log.i("wust-lz", "wust-ls===>viewpager width:" + width);
-                ViewGroup.LayoutParams lp = viewPager.getLayoutParams();
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) viewPager.getLayoutParams();
                 lp.width = width + 20;
                 lp.height = height;
+                lp.leftMargin = 0;
+                lp.rightMargin = 0;
                 viewPager.setLayoutParams(lp);
             }
         });
@@ -321,7 +323,7 @@ public class MainPageFragment extends BaseFragment {
                 float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
                 if (position < 0) {
                     float scaleX = 1 + 0.2f * position;
-                    Log.d("google_lenve_fb", "transformPage: scaleX:" + scaleX);
+                    //Log.d("google_lenve_fb", "transformPage: scaleX:" + scaleX);
                     //page.setScaleX(scaleX);
                     page.setScaleY(scaleX);
                 } else {

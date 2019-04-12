@@ -113,35 +113,36 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
     @Override
     public void handle(MyDialog.MyDialogType type) {
+        GoodItem item = new GoodItem();
         switch (type) {
             case SELCT_BOOKBINDING:
                 bookbinding_txt.setText(type.getItems()[selectStatus.get(type)]);
-                item.setBinding(type.getItems()[selectStatus.get(type)]);
-                queryPrice();
+                this.item.setBinding(type.getItems()[selectStatus.get(type)]);
+                queryPrice(item);
                 calcuTotalFee();
                 break;
             case EDIT_LAYOUT:
                 layout_txt.setText(type.getItems()[selectStatus.get(type)]);
-                item.setLayout(type.getItems()[selectStatus.get(type)]);
-                queryPrice();
+                this.item.setLayout(type.getItems()[selectStatus.get(type)]);
+                queryPrice(item);
                 calcuTotalFee();
                 break;
             case EDIT_COLOR:
                 color_txt.setText(type.getItems()[selectStatus.get(type)]);
-                item.setColor(type.getItems()[selectStatus.get(type)]);
-                queryPrice();
+                this.item.setColor(type.getItems()[selectStatus.get(type)]);
+                queryPrice(item);
                 calcuTotalFee();
                 break;
             case EDIT_SINGLE_DOUBLE_PAGE:
                 single_double_txt.setText(type.getItems()[selectStatus.get(type)]);
-                item.setIssingle(type.getItems()[selectStatus.get(type)]);
-                queryPrice();
+                this.item.setIssingle(type.getItems()[selectStatus.get(type)]);
+                queryPrice(item);
                 calcuTotalFee();
                 break;
             case PAPER_SPECIFICATION:
                 paper_txt.setText(type.getItems()[selectStatus.get(type)]);
-                item.setSize(type.getItems()[selectStatus.get(type)]);
-                queryPrice();
+                this.item.setSize(type.getItems()[selectStatus.get(type)]);
+                queryPrice(item);
                 calcuTotalFee();
                 break;
             case EDIT_ADDRESS:
@@ -245,7 +246,8 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
         this.respDto = respDto;
         collectItems(respDto);
         calcuPage();
-        queryPrice();
+        GoodItem item = new GoodItem();
+        queryPrice(item);
         calcuTotalFee();
 
         List<Address> addressList = respDto.getAddress();
@@ -300,7 +302,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
         totalPage = page;
     }
 
-    private void queryPrice() {
+    private void queryPrice(GoodItem item) {
         List<GoodItem> good = respDto.getGood();
         boolean flag = false;
         for (GoodItem g : good) {
@@ -308,9 +310,14 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                 try {
                     price = Double.parseDouble(g.getPrice());
                     packFee = Double.parseDouble(g.getPackfree());
-                    item.setId(g.getId());
-                    item.setPrice(g.getPrice());
-                    item.setPackfree(g.getPackfree());
+                    this.item.setId(g.getId());
+                    this.item.setPrice(g.getPrice());
+                    this.item.setPackfree(g.getPackfree());
+                    this.item.setSize(item.getSize());
+                    this.item.setIssingle(item.getIssingle());
+                    this.item.setColor(item.getColor());
+                    this.item.setLayout(item.getLayout());
+                    this.item.setBinding(item.getBinding());
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }

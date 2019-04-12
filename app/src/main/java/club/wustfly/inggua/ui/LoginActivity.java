@@ -252,6 +252,7 @@ public class LoginActivity extends BaseActivity {
             api.sendReq(req);
         } else {
             Toast.makeText(this, "用户未安装微信", Toast.LENGTH_SHORT).show();
+            dismissProgressDialog();
         }
     }
 

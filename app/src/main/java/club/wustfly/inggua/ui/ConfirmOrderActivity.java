@@ -137,7 +137,7 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
             order_content.addView(view);
         }
 
-        double packFee = Double.parseDouble(good.getPackfree()) * page;
+        double packFee = Double.parseDouble(good.getPackfree());
         DecimalFormat df = new DecimalFormat("#0.00");
         packFeeStr = df.format(packFee);
         wrapper_fee.setText("￥" + packFeeStr);

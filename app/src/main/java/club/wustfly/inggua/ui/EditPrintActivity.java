@@ -351,7 +351,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
         total_page_txt.setText(realPaperPage * num + "页");
 
-        double totalFee = realPaperPage * (price + packFee) * num;
+        double totalFee = realPaperPage * price * num + packFee;
 
         List<CouponItem> coupon = respDto.getCoupon();
 

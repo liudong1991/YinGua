@@ -28,8 +28,6 @@ public class GoodItem extends BaseModel {
     public GoodItem() {
     }
 
-
-
     public GoodItem(String size, String issingle, String color, String layout, String binding) {
         this.size = size;
         this.issingle = issingle;

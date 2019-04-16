@@ -197,8 +197,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        User user = Session.getSession().getUser();
-        if (null != user) {
+        if (Session.getSession().isLogin()) {
             startActivity(MainActivity.class);
             finish();
         }

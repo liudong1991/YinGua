@@ -130,14 +130,23 @@ public class BindPhoneNumActivity extends BaseActivity {
                 obtainVerifyCode();
                 break;
             case R.id.bind_btn:
-                startActivity(MainActivity.class);
-                finish();
+                // startActivity(MainActivity.class);
+                //finish();
                 bindPhoneNum();
                 break;
         }
     }
 
     private void bindPhoneNum() {
+        boolean matches = Pattern.compile("^\\d{4}$").matcher(verifyCode).matches();
+        if (!matches) {
+            showToast("请输入4位数字验证码");
+            return;
+        }
+        if (!verifyCode.equals(this.param.getCode())) {
+            showToast("验证码输入有误");
+            return;
+        }
         BindPhoneNumParam param = new BindPhoneNumParam();
         param.setId(uid + "");
         param.setPhone(phoneNum);
@@ -152,6 +161,7 @@ public class BindPhoneNumActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.putExtra("phone", phoneNum);
         setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void obtainVerifyCode() {

@@ -197,6 +197,12 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        User user = Session.getSession().getUser();
+        if (null != user) {
+            startActivity(MainActivity.class);
+            finish();
+        }
+
     }
 
     @OnClick({R.id.yz_code_login_label, R.id.m_code_login_label, R.id.forget_password_btn, R.id.login_btn, R.id.weixin_login_btn, R.id.obtain_verify_code_btn})

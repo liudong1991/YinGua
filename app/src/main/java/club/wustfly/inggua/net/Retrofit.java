@@ -2,13 +2,9 @@ package club.wustfly.inggua.net;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import club.wustfly.inggua.common.Constants;
 import club.wustfly.inggua.net.interceptors.AddHeaderInterceptor;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;

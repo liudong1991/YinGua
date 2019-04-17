@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
@@ -27,7 +26,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import club.wustfly.inggua.MainActivity;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.model.bean.OrderDetailItem;
 import club.wustfly.inggua.model.bean.Staff;

@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import club.wustfly.inggua.MainActivity;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.model.req.BindPhoneNumParam;
 import club.wustfly.inggua.model.req.ObtainVerifyCodeRequestParam;

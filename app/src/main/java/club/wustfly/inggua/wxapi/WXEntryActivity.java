@@ -4,7 +4,6 @@ package club.wustfly.inggua.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelbase.BaseReq;

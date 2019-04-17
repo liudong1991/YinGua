@@ -8,6 +8,15 @@ public class UploadFileParam extends BaseModel {
 
     private String uid;
     private List<String> ufile;
+    private String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public String getUid() {
         return uid;

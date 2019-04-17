@@ -1,6 +1,7 @@
 package club.wustfly.inggua;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,18 +24,29 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import club.wustfly.inggua.cache.Session;
 import club.wustfly.inggua.loc.LocationService;
 import club.wustfly.inggua.model.event.ReLocateEvent;
+import club.wustfly.inggua.model.req.UploadFileParam;
+import club.wustfly.inggua.model.resp.UploadFileRespDto;
+import club.wustfly.inggua.net.RequestWrapper;
+import club.wustfly.inggua.ui.EditPrintActivity;
+import club.wustfly.inggua.ui.LoginActivity;
 import club.wustfly.inggua.ui.base.BaseActivity;
 import club.wustfly.inggua.ui.fragment.MainPageFragment;
 import club.wustfly.inggua.ui.fragment.MainPersonalInfoFragment;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private static final int BAIDU_READ_PHONE_STATE = 100;
+    private static final int READ_WRITE_FILE = 101;
 
     @BindView(R.id.main_page_btn)
     TextView main_page_btn;
@@ -50,6 +62,8 @@ public class MainActivity extends BaseActivity {
     int currentIndex = 0;
 
     private LocationService locationService;
+
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +85,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
+
+
         mFragmentMannager = getSupportFragmentManager();
         FragmentTransaction ft = mFragmentMannager.beginTransaction();
         for (int i = 0; i < fragments.length; i++) {
@@ -88,6 +104,49 @@ public class MainActivity extends BaseActivity {
 
         locationService.setLocationOption(locationService.getDefaultLocationClientOption());
         locate();
+
+    }
+
+    private void handleIntent(Intent intent) {
+        String from = intent.getStringExtra("from");
+        Log.i("wust-lz", "wust-lz===>from:" + from);
+        if (LoginActivity.OTHER_APP.equals(from)) {
+            String resPath = intent.getStringExtra("resPath");
+            Log.i("wust-lz", "wust-lz===>resPath:" + resPath);
+            ArrayList<String> fList = new ArrayList<>();
+            fList.add(resPath);
+            UploadFileParam param = new UploadFileParam();
+            param.setTag(TAG);
+            param.setUid(Session.getSession().getUser().getId() + "");
+            param.setUfile(fList);
+            showProgressDialog();
+            RequestWrapper.uploadFile(param);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveUploadFile(UploadFileRespDto respDto) {
+        if (!TAG.equals(respDto.getTag())) return;
+        showToast("上传成功");
+        Intent intent = new Intent(this, EditPrintActivity.class);
+        StringBuilder sb = new StringBuilder();
+        for (String s : respDto.getData()) {
+            sb.append(s);
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        intent.putExtra("fid", sb.toString());
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestFilePermission(intent);
+        } else {
+            handleIntent(intent);
+        }
     }
 
     @OnClick({R.id.main_page_btn, R.id.personal_info_btn})
@@ -136,7 +195,7 @@ public class MainActivity extends BaseActivity {
 
     private void locate() {
         if (Build.VERSION.SDK_INT >= 23) {
-            showContacts();
+            requestLocationPermission();
         } else {
             locationService.start();
         }
@@ -149,18 +208,25 @@ public class MainActivity extends BaseActivity {
         locate();
     }
 
-    public void showContacts() {
+    public void requestLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
-            //Toast.makeText(getApplicationContext(), "没有权限,请手动开启定位权限", Toast.LENGTH_SHORT).show();
-            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, BAIDU_READ_PHONE_STATE);
         } else {
             locationService.start();
+        }
+    }
+
+    public void requestFilePermission(Intent intent) {
+        this.intent = intent;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, READ_WRITE_FILE);
+        } else {
+            handleIntent(this.intent);
         }
     }
 
@@ -168,14 +234,18 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            // requestCode即所声明的权限获取码，在checkSelfPermission时传入
             case BAIDU_READ_PHONE_STATE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
                     locationService.start();
                 } else {
-                    // 没有获取到权限，做特殊处理
                     Toast.makeText(getApplicationContext(), "获取位置权限失败，请手动开启", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case READ_WRITE_FILE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    handleIntent(this.intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "获取文件权限失败，请手动开启", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

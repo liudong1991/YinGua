@@ -1,12 +1,19 @@
 package club.wustfly.inggua.ui;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +26,10 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
@@ -43,6 +54,8 @@ import club.wustfly.inggua.ui.base.BaseActivity;
 import club.wustfly.inggua.wxapi.WXEntryActivity;
 
 public class LoginActivity extends BaseActivity {
+
+    public static final String OTHER_APP = "OTHER APP";
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -81,6 +94,9 @@ public class LoginActivity extends BaseActivity {
 
     int count = 0;
     Timer timer = new Timer();
+
+    String from = "";
+    String resPath = "";
 
     ObtainVerifyCodeRequestParam param = new ObtainVerifyCodeRequestParam();
 
@@ -197,11 +213,30 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        if (Session.getSession().isLogin()) {
-            startActivity(MainActivity.class);
-            finish();
+        Intent zIntent = getIntent();
+
+        Log.i("wust-lz", "wust-lz==>" + zIntent);
+        Set<String> categories = zIntent.getCategories();
+        if (categories == null || !categories.contains("android.intent.category.LAUNCHER")) {
+            from = OTHER_APP;
+            Uri uri = zIntent.getData();
+            String path = uri.getPath();
+            File file = new File(Environment.getExternalStorageDirectory(), path.replace("/external/", ""));
+            resPath = file.getAbsolutePath();
         }
 
+        if (Session.getSession().isLogin()) {
+            goMain();
+        }
+
+    }
+
+    private void goMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("from", from);
+        intent.putExtra("resPath", resPath);
+        startActivity(intent);
+        finish();
     }
 
     @OnClick({R.id.yz_code_login_label, R.id.m_code_login_label, R.id.forget_password_btn, R.id.login_btn, R.id.weixin_login_btn, R.id.obtain_verify_code_btn})
@@ -347,8 +382,7 @@ public class LoginActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveLoginResult(LoginRespDto loginRespDto) {
         Session.getSession().login(loginRespDto.getUser());
-        startActivity(MainActivity.class);
-        finish();
+        goMain();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -370,7 +404,6 @@ public class LoginActivity extends BaseActivity {
         RequestWrapper.wxLogin(param);
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveWxLoginResult(WXLoginRespDto wxLoginRespDto) {
         user = wxLoginRespDto.getUser();
@@ -381,8 +414,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         Session.getSession().login(user);
-        startActivity(MainActivity.class);
-        finish();
+        goMain();
     }
 
     @Override
@@ -392,8 +424,7 @@ public class LoginActivity extends BaseActivity {
             String phone = data.getStringExtra("phone");
             user.setPhone(phone);
             Session.getSession().login(user);
-            startActivity(MainActivity.class);
-            finish();
+            goMain();
         }
     }
 

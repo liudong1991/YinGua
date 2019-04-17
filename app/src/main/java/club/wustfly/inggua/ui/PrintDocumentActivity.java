@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.printservice.PrintDocument;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -29,6 +30,7 @@ import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.base.BaseActivity;
 
 public class PrintDocumentActivity extends BaseActivity {
+    private static final String TAG = PrintDocumentActivity.class.getSimpleName();
 
     private static final int SELECT_FILE_REQUESTCODE = 1001;
     private static final int APPLY_PERMISSION_REQUESTCODE = 1002;
@@ -133,6 +135,7 @@ public class PrintDocumentActivity extends BaseActivity {
             Log.i("wust-lz", list.toString());
 
             UploadFileParam param = new UploadFileParam();
+            param.setTag(TAG);
             param.setUfile(list);
             param.setUid(Session.getSession().getUser().getId() + "");
 
@@ -143,6 +146,7 @@ public class PrintDocumentActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void recieveUploadFileResult(UploadFileRespDto respDto) {
+        if (!TAG.equals(respDto.getTag())) return;
         showToast("上传成功");
     }
 }

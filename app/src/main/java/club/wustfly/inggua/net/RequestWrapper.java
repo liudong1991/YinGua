@@ -136,7 +136,7 @@ public class RequestWrapper {
         });
     }
 
-    public static void uploadFile(UploadFileParam param) {
+    public static void uploadFile(final UploadFileParam param) {
 
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -149,6 +149,12 @@ public class RequestWrapper {
         RequestBody requestBody = builder.build();
 
         Retrofit.getService().uploadFile(requestBody).enqueue(new AbsCallbackWrapper<UploadFileRespDto>() {
+            @Override
+            protected void onSuccess(UploadFileRespDto respDto) {
+                UploadFileRespDto respDto1 = respDto == null ? new UploadFileRespDto() : respDto;
+                respDto1.setTag(param.getTag());
+                EventBus.getDefault().post(respDto1);
+            }
         });
 
     }

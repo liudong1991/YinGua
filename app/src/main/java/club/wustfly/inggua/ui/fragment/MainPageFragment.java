@@ -147,6 +147,7 @@ public class MainPageFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
+                if (position != mCurrentItem) mCurrentItem = position;
                 int realSelectPosition = mCurrentItem % mIndicators.size();
                 for (int i = 0; i < mIndicators.size(); i++) {
                     if (i == realSelectPosition) {

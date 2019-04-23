@@ -153,7 +153,9 @@ public class MyDocumentAdapter extends RecyclerView.Adapter<MyDocumentAdapter.Vi
                 sb.append(",");
             }
         }
-        sb.deleteCharAt(sb.lastIndexOf(","));
+        int index = sb.lastIndexOf(",");
+        if (index > 0)
+            sb.deleteCharAt(index);
         return sb.toString();
     }
 

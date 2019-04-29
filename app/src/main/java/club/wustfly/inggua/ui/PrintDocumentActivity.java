@@ -56,10 +56,10 @@ public class PrintDocumentActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.word_btn, R.id.pdf_btn, R.id.ppt_btn, R.id.wx_import_btn, R.id.qq_import_btn, R.id.wps_import_btn})
+    @OnClick({/*R.id.word_btn, R.id.pdf_btn, R.id.ppt_btn, */R.id.wx_import_btn, R.id.qq_import_btn, R.id.wps_import_btn, R.id.doc_normal_btn})
     public void handleClick(View view) {
         switch (view.getId()) {
-            case R.id.word_btn:
+            case R.id.doc_normal_btn:
                 Intent intent = new Intent(this, MyDocmentActivity.class);
                 intent.putExtra("type", 1);
                 startActivity(intent);

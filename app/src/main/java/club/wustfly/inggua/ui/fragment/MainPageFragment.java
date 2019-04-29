@@ -263,12 +263,12 @@ public class MainPageFragment extends BaseFragment {
     public void handleClick(View view) {
         switch (view.getId()) {
             case R.id.label_title1_container:
-                if (isServiceAround) {
-                    startActivity(new Intent(getContext(), PrintDocumentActivity.class));
-                } else {
-                    showToast("您的位置不在服务范围内，不能为您打印");
-                }
-//                startActivity(new Intent(getContext(), PrintDocumentActivity.class));
+//                if (isServiceAround) {
+//                    startActivity(new Intent(getContext(), PrintDocumentActivity.class));
+//                } else {
+//                    showToast("您的位置不在服务范围内，不能为您打印");
+//                }
+                startActivity(new Intent(getContext(), PrintDocumentActivity.class));
                 break;
             case R.id.re_locate_btn:
                 // re_locate_btn.setEnabled(false);

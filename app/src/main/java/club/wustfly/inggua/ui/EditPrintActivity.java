@@ -32,6 +32,7 @@ import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.UpdateAddressRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.base.BaseActivity;
+import club.wustfly.inggua.ui.fragment.MainPageFragment;
 import club.wustfly.inggua.ui.views.MyAddressDialog;
 import club.wustfly.inggua.ui.views.MyCommonDialog;
 import club.wustfly.inggua.ui.views.MyDialog;
@@ -240,6 +241,11 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                 if (!isSendable) {
                     showToast("订单总价未达到起送价(￥" + respDto.getSet().getContent() + ")");
                     break;
+                }
+
+                if (!MainPageFragment.isServiceAround) {
+                    showToast("您的位置不在服务范围内，不能为您打印");
+                    return;
                 }
 
                 Intent intent = new Intent(this, ConfirmOrderActivity.class);

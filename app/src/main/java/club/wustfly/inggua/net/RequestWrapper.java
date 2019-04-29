@@ -18,6 +18,7 @@ import club.wustfly.inggua.model.req.ModifyNicknameParam;
 import club.wustfly.inggua.model.req.ObtainEditParam;
 import club.wustfly.inggua.model.req.ObtainMyDocumentParam;
 import club.wustfly.inggua.model.req.ObtainPayTokenParam;
+import club.wustfly.inggua.model.req.ObtainServiceScopeParam;
 import club.wustfly.inggua.model.req.ObtainVerifyCodeRequestParam;
 import club.wustfly.inggua.model.req.RegisterParam;
 import club.wustfly.inggua.model.req.SelectPayParam;
@@ -39,6 +40,7 @@ import club.wustfly.inggua.model.resp.ModifyNicknameRespDto;
 import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
 import club.wustfly.inggua.model.resp.ObtainPayTokenRespDto;
+import club.wustfly.inggua.model.resp.ObtainServiceScopeResp;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.model.resp.RegisterRespDto;
 import club.wustfly.inggua.model.resp.SelectPayRespDto;
@@ -221,6 +223,11 @@ public class RequestWrapper {
 
     public static void deleteOrder(DeleteOrderParam param) {
         Retrofit.getService().deleteOrder(param.getId()).enqueue(new AbsCallbackWrapper<DeleteOrderRespDto>() {
+        });
+    }
+
+    public static void obtainServiceScope(ObtainServiceScopeParam param) {
+        Retrofit.getService().obtainServiceScope(Retrofit.convert(param)).enqueue(new AbsCallbackWrapper<ObtainServiceScopeResp>() {
         });
     }
 }

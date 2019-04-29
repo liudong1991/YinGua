@@ -195,6 +195,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/how_to_print"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginLeft="14dp"

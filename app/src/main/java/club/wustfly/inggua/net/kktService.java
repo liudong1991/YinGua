@@ -12,6 +12,7 @@ import club.wustfly.inggua.model.resp.ModifyNicknameRespDto;
 import club.wustfly.inggua.model.resp.ObtainEditRespDto;
 import club.wustfly.inggua.model.resp.ObtainMyDocumentRespDto;
 import club.wustfly.inggua.model.resp.ObtainPayTokenRespDto;
+import club.wustfly.inggua.model.resp.ObtainServiceScopeResp;
 import club.wustfly.inggua.model.resp.ObtainVerifyCodeRespDto;
 import club.wustfly.inggua.model.resp.RegisterRespDto;
 import club.wustfly.inggua.model.resp.SelectPayRespDto;
@@ -92,5 +93,8 @@ public interface kktService {
 
     @GET("/home/order/delorder")
     Call<DeleteOrderRespDto> deleteOrder(@Query("id") String id);
+
+    @POST("/home/index/amap")
+    Call<ObtainServiceScopeResp> obtainServiceScope(@Body RequestBody route);
 
 }

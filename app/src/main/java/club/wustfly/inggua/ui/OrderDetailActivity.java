@@ -234,10 +234,10 @@ public class OrderDetailActivity extends BaseActivity {
         values = new String[]{order.getPage() + "张", order.getSize(), order.getIssingle(), order.getColor(), order.getLayout(), order.getNumber() + "份", order.getBinding()};
         fillOrderDetail();
 
-        goods_total_fee.setText("￥" + order.getMoney());
+        goods_total_fee.setText("￥" + order.getTotal());
         wrapper_fee.setText("￥" + order.getPackfree());
-        order_total_fee.setText("￥" + order.getTotal());
-        real_pay_amount.setText("￥" + order.getTotal());
+        order_total_fee.setText("￥" + order.getMoney());
+        real_pay_amount.setText("￥" + order.getMoney());
 
         order_id.setText(order.getId() + "");
         String addtime = order.getAddtime();

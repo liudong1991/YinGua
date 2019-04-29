@@ -1,14 +1,17 @@
 package club.wustfly.inggua.ui.fragment;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +40,11 @@ import club.wustfly.inggua.R;
 import club.wustfly.inggua.common.Constants;
 import club.wustfly.inggua.model.bean.BannerItem;
 import club.wustfly.inggua.model.event.ReLocateEvent;
+import club.wustfly.inggua.model.req.ObtainServiceScopeParam;
 import club.wustfly.inggua.model.resp.GetBannerImgRespDto;
+import club.wustfly.inggua.model.resp.ObtainServiceScopeResp;
 import club.wustfly.inggua.net.RequestWrapper;
+import club.wustfly.inggua.ui.HowToUseActivity;
 import club.wustfly.inggua.ui.PrintDocumentActivity;
 import club.wustfly.inggua.ui.base.BaseFragment;
 import club.wustfly.inggua.ui.views.LzViewPager;
@@ -71,6 +77,8 @@ public class MainPageFragment extends BaseFragment {
     List<BannerItem> list = new ArrayList<>();
 
     List<ImageView> mIndicators = new ArrayList<>();
+
+    public static boolean isServiceAround = false;
 
     @Nullable
     @Override
@@ -208,6 +216,29 @@ public class MainPageFragment extends BaseFragment {
     public void recieveLocationResult(BDLocation location) {
         location_txt.setText(location.getLocationDescribe());
         showToast("位置已更新");
+
+        ObtainServiceScopeParam param = new ObtainServiceScopeParam();
+        param.setLocation(location.getLongitude() + "," + location.getLatitude());
+        param.setDiu(getPhoneIMEI());
+        RequestWrapper.obtainServiceScope(param);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveObtainServiceScopeResult(ObtainServiceScopeResp resp) {
+        List<ObtainServiceScopeResp.DataBean.FencingEventListBean> fencing_event_list = resp.getData().getFencing_event_list();
+        if (fencing_event_list == null || fencing_event_list.size() == 0) {
+            service_status_txt.setVisibility(View.VISIBLE);
+            isServiceAround = false;
+        } else {
+            service_status_txt.setVisibility(View.GONE);
+            isServiceAround = true;
+        }
+    }
+
+    private String getPhoneIMEI() {
+        TelephonyManager tm = (TelephonyManager) getContext().getSystemService(Service.TELEPHONY_SERVICE);
+        return tm.getDeviceId();
     }
 
     @Override
@@ -224,15 +255,23 @@ public class MainPageFragment extends BaseFragment {
         pause();
     }
 
-    @OnClick({R.id.label_title1_container, R.id.re_locate_btn})
+    @OnClick({R.id.label_title1_container, R.id.re_locate_btn, R.id.how_to_print})
     public void handleClick(View view) {
         switch (view.getId()) {
             case R.id.label_title1_container:
-                startActivity(new Intent(getContext(), PrintDocumentActivity.class));
+                if (isServiceAround) {
+                    startActivity(new Intent(getContext(), PrintDocumentActivity.class));
+                } else {
+                    showToast("您的位置不在服务范围内，不能为您打印");
+                }
+                //startActivity(new Intent(getContext(), PrintDocumentActivity.class));
                 break;
             case R.id.re_locate_btn:
                 // re_locate_btn.setEnabled(false);
                 EventBus.getDefault().post(new ReLocateEvent());
+                break;
+            case R.id.how_to_print:
+                startActivity(HowToUseActivity.class);
                 break;
         }
 

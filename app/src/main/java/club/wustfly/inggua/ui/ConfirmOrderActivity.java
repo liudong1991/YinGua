@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -57,6 +58,10 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
     TextView total_fee_txt;
     @BindView(R.id.showTimeStr_txt)
     TextView showTimeStr_txt;
+    @BindView(R.id.message_txt)
+    TextView message_txt;
+    @BindView(R.id.first_order_container)
+    RelativeLayout first_order_container;
 
     Address address;
     GoodItem good;
@@ -64,6 +69,7 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
     int num;
     int condition;
     int discount;
+    int firstOrder;
     String fid = "";
 
     String timeStr;
@@ -71,6 +77,8 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
     String totalFeeStr;
     String packFeeStr;
     String goodFeeStr;
+
+    String message = "";
 
 
     @Override
@@ -98,6 +106,7 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
         good = gson.fromJson(intent.getStringExtra("good"), GoodItem.class);
         page = intent.getIntExtra("page", 1);
         num = intent.getIntExtra("num", 1);
+        firstOrder = intent.getIntExtra("firstOrder", 0);
         String boundstr = intent.getStringExtra("boundstr");
         if (!TextUtils.isEmpty(boundstr)) {
             String[] boundStrs = boundstr.split(";");
@@ -108,6 +117,8 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
         address_name_txt.setText(address.getConsignee());
         address_phone_txt.setText(address.getPhone());
         address_txt.setText(address.getAddress());
+
+        first_order_container.setVisibility(firstOrder == 1 ? View.VISIBLE : View.GONE);
 
         divider_bar.post(new Runnable() {
             @Override
@@ -153,12 +164,14 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
         good_fee_txt.setText("￥" + goodFeeStr);
 
 
-        totalFeeStr = df.format(packFee + goodFee - discount);
+        double firstOrderDiscount = firstOrder == 1 ? 1.5 : 0;
+
+        totalFeeStr = df.format(packFee + goodFee - discount - firstOrderDiscount);
         total_fee_txt.setText("￥" + totalFeeStr);
 
     }
 
-    @OnClick({R.id.select_send_time, R.id.submit_order})
+    @OnClick({R.id.select_send_time, R.id.submit_order, R.id.message_btn})
     public void handleClick(View view) {
         switch (view.getId()) {
             case R.id.select_send_time:
@@ -167,6 +180,20 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
             case R.id.submit_order:
                 submitOrder();
                 break;
+            case R.id.message_btn:
+                Intent intent = new Intent(this, EditMessageActivity.class);
+                intent.putExtra("message", message);
+                startActivityForResult(intent, 1001);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            message = data.getStringExtra("message");
+            message_txt.setText(message);
         }
     }
 
@@ -179,12 +206,13 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
         param.setFid(fid);
         param.setUid(Session.getSession().getUser().getId() + "");
         param.setNumber(num + "");
-        param.setTotal(totalFeeStr);
+        param.setTotal(goodFeeStr);
         param.setPackfree(packFeeStr);
         param.setMoney(totalFeeStr);
         param.setPage(page + "");
         param.setApptime(timeStr);
         param.setGid(good.getId() + "");
+        param.setMessage(message);
         showProgressDialog();
         RequestWrapper.submitOrder(param);
     }

@@ -13,6 +13,7 @@ public class SubmitOrderParam extends BaseModel {
     private String page;
     private String apptime;
     private String gid;
+    private String message;
 
     public String getFid() {
         return fid;
@@ -84,5 +85,13 @@ public class SubmitOrderParam extends BaseModel {
 
     public void setGid(String gid) {
         this.gid = gid;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -71,6 +72,9 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
     @BindView(R.id.total_fee_txt)
     TextView total_fee_txt;
 
+    @BindView(R.id.first_order_container)
+    RelativeLayout first_order_container;
+
 
     Map<MyDialog.MyDialogType, Integer> selectStatus = new HashMap<>();
     Address address = new Address();
@@ -91,6 +95,9 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
     MyDialog myDialog;
 
+    boolean isSendable = false;
+    int firstOrder = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +115,11 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
         fid = getIntent().getStringExtra("fid");
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         obtainEdit();
     }
 
@@ -223,6 +235,11 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                     return;
                 }
 
+                if (!isSendable) {
+                    showToast("订单总价未达到起送价(￥" + respDto.getSet().getContent() + ")");
+                    break;
+                }
+
                 Intent intent = new Intent(this, ConfirmOrderActivity.class);
                 intent.putExtra("fid", fid);
                 intent.putExtra("address", address.toString());
@@ -230,6 +247,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                 intent.putExtra("num", num);
                 intent.putExtra("page", realPaperPage * num);
                 intent.putExtra("boundstr", boundStr);
+                intent.putExtra("firstOrder", firstOrder);
                 startActivity(intent);
                 break;
         }
@@ -259,6 +277,10 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
         address_name_txt.setText(address.getConsignee());
         address_phone_txt.setText(address.getPhone());
         address_txt.setText(address.getAddress());
+
+        int firstorder = respDto.getUser().getFirstorder();
+        this.firstOrder = firstorder;
+        first_order_container.setVisibility(firstorder == 1 ? View.VISIBLE : View.GONE);
     }
 
     private void collectItems(ObtainEditRespDto respDto) {
@@ -353,11 +375,18 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
         double totalFee = realPaperPage * price * num + packFee;
 
+        double sendPricce = Double.parseDouble(respDto.getSet().getContent());
+        isSendable = totalFee >= sendPricce;
+
         List<CouponItem> coupon = respDto.getCoupon();
 
         int couponIndex = -1;
-        for (int i = 0; i < coupon.size() - 1; i++) {
+        for (int i = 0; i < coupon.size(); i++) {
             if (i == 0 && totalFee < Integer.parseInt(coupon.get(0).getCondition())) break;
+            if (i == coupon.size() - 1) {
+                couponIndex = coupon.size() - 1;
+                break;
+            }
             CouponItem item1 = coupon.get(i);
             CouponItem item2 = coupon.get(i + 1);
             if (totalFee >= Integer.parseInt(item1.getCondition()) && totalFee < Integer.parseInt(item2.getCondition())) {
@@ -379,6 +408,13 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
             coupon_txt.setText("满" + coupon.get(couponIndex).getCondition() + "元优惠" + coupon.get(couponIndex).getMoney() + "元");
             lastRealFee = totalFee - Integer.parseInt(coupon.get(couponIndex).getMoney());
         }
+
+        int firstorder = respDto.getUser().getFirstorder();
+        if (firstorder == 1) {
+            lastRealFee = lastRealFee - 1.5;
+        }
+
+        lastRealFee = lastRealFee <= 0 ? 0.01 : lastRealFee;
 
         DecimalFormat df = new DecimalFormat("#0.00");
         total_fee_txt.setText(df.format(lastRealFee) + "元");

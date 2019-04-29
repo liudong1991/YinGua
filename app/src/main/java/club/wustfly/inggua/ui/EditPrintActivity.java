@@ -74,6 +74,8 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
     @BindView(R.id.first_order_container)
     RelativeLayout first_order_container;
+    @BindView(R.id.coupon_list_txt)
+    TextView coupon_list_txt;
 
 
     Map<MyDialog.MyDialogType, Integer> selectStatus = new HashMap<>();
@@ -277,6 +279,15 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
         address_name_txt.setText(address.getConsignee());
         address_phone_txt.setText(address.getPhone());
         address_txt.setText(address.getAddress());
+
+        List<CouponItem> coupons = respDto.getCoupon();
+        StringBuilder sb = new StringBuilder();
+        for (CouponItem cou : coupons) {
+            sb.append("满" + cou.getCondition() + "元优惠" + cou.getMoney() + "元");
+            sb.append(";");
+        }
+
+        coupon_list_txt.setText(sb.toString());
 
         int firstorder = respDto.getUser().getFirstorder();
         this.firstOrder = firstorder;

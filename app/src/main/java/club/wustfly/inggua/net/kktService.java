@@ -68,7 +68,7 @@ public interface kktService {
     Call<UploadFileRespDto> uploadFile(@Body RequestBody route);
 
     @GET("/home/user/myfile")
-    Call<ObtainMyDocumentRespDto> obtainMyDocment(@Query("uid") String uid, @Query("type") int type);
+    Call<ObtainMyDocumentRespDto> obtainMyDocment(@Query("uid") String uid/*, @Query("type") int type*/);
 
     @GET("/home/order/edit")
     Call<ObtainEditRespDto> obtainEdit(@Query("uid") int uid, @Query("fid") String fid);

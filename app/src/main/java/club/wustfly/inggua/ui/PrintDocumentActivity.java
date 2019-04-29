@@ -64,16 +64,16 @@ public class PrintDocumentActivity extends BaseActivity {
                 intent.putExtra("type", 1);
                 startActivity(intent);
                 break;
-            case R.id.pdf_btn:
-                Intent intent2 = new Intent(this, MyDocmentActivity.class);
-                intent2.putExtra("type", 2);
-                startActivity(intent2);
-                break;
-            case R.id.ppt_btn:
-                Intent intent3 = new Intent(this, MyDocmentActivity.class);
-                intent3.putExtra("type", 3);
-                startActivity(intent3);
-                break;
+//            case R.id.pdf_btn:
+//                Intent intent2 = new Intent(this, MyDocmentActivity.class);
+//                intent2.putExtra("type", 2);
+//                startActivity(intent2);
+//                break;
+//            case R.id.ppt_btn:
+//                Intent intent3 = new Intent(this, MyDocmentActivity.class);
+//                intent3.putExtra("type", 3);
+//                startActivity(intent3);
+//                break;
             case R.id.wx_import_btn:
                 path = "tencent/MicroMsg/Download";
                 checkPermission();

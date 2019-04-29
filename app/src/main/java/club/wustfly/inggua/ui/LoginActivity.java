@@ -214,9 +214,13 @@ public class LoginActivity extends BaseActivity {
         if (categories == null || !categories.contains("android.intent.category.LAUNCHER")) {
             from = OTHER_APP;
             Uri uri = zIntent.getData();
+            String scheme = uri.getScheme();
             String path = uri.getPath();
-            File file = new File(Environment.getExternalStorageDirectory(), path.replace("/external/", ""));
-            resPath = file.getAbsolutePath();
+            if ("content".equals(scheme)) {
+                resPath = new File(Environment.getExternalStorageDirectory(), path.replace("/external/", "")).getAbsolutePath();
+            } else if ("file".equals(scheme)) {
+                resPath = path.replace("/Tencent/", "/tencent/");
+            }
         }
 
         if (Session.getSession().isLogin()) {

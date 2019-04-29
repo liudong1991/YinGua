@@ -165,7 +165,7 @@ public class RequestWrapper {
      * @param param.type 1 word    2 pdf     3 ppt
      */
     public static void obtainMyDocument(ObtainMyDocumentParam param) {
-        Retrofit.getService().obtainMyDocment(param.getUid(), param.getType()).enqueue(new AbsCallbackWrapper<ObtainMyDocumentRespDto>() {
+        Retrofit.getService().obtainMyDocment(param.getUid()/*, param.getType()*/).enqueue(new AbsCallbackWrapper<ObtainMyDocumentRespDto>() {
         });
     }
 

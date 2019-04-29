@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -65,6 +64,8 @@ public class MainPageFragment extends BaseFragment {
     LzViewPager viewPager;
     @BindView(R.id.mIndicatorContainer)
     LinearLayout mIndicatorContainer;
+    @BindView(R.id.send_price_txt)
+    TextView send_price_txt;
 
     private int mDelayedTime = 3000;// Banner 切换时间间隔
 
@@ -192,6 +193,9 @@ public class MainPageFragment extends BaseFragment {
         mCurrentItem = getStartSelectItem();
         viewPager.setCurrentItem(mCurrentItem);
         start();
+
+        String content = bannerImgRespDto.getSet().getContent();
+        send_price_txt.setText("满" + Double.parseDouble(content) + "元起送");
     }
 
     private void initIndicator() {
@@ -264,7 +268,7 @@ public class MainPageFragment extends BaseFragment {
                 } else {
                     showToast("您的位置不在服务范围内，不能为您打印");
                 }
-                //startActivity(new Intent(getContext(), PrintDocumentActivity.class));
+//                startActivity(new Intent(getContext(), PrintDocumentActivity.class));
                 break;
             case R.id.re_locate_btn:
                 // re_locate_btn.setEnabled(false);

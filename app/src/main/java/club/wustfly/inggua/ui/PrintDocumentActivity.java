@@ -122,7 +122,7 @@ public class PrintDocumentActivity extends BaseActivity {
                 .withStartPath(new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), path).getAbsolutePath())
                 .withIsGreater(true)
                 .withFileSize(0)
-                .withFileFilter(new String[]{".docx", ".doc", ".pptx", ".pdf"})
+                .withFileFilter(new String[]{".docx", ".doc", ".pptx", ".ppt", ".pdf"})
                 .start();
     }
 

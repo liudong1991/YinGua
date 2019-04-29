@@ -142,6 +142,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (MainPageFragment.isServiceAround) {
+            showToast("您的位置不在服务范围内，不能为您打印");
+            return;
+        }
         if (Build.VERSION.SDK_INT >= 23) {
             requestFilePermission(intent);
         } else {

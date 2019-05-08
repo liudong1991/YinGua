@@ -81,6 +81,9 @@ public class MainPageFragment extends BaseFragment {
 
     public static boolean isServiceAround = false;
 
+    int width = 0;
+    int height = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,16 +118,16 @@ public class MainPageFragment extends BaseFragment {
             }
         });
 
-        getBannerImg();
 
         viewPager.post(new Runnable() {
             @Override
             public void run() {
-                int width = viewPager.getWidth();
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeResource(getResources(), R.mipmap.banner_model, options);
-                int height = (int) (width * 1.0 / options.outWidth * options.outHeight);
+                width = viewPager.getWidth();
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inJustDecodeBounds = true;
+//                BitmapFactory.decodeResource(getResources(), R.mipmap.banner_model, options);
+//                height = (int) (width * 1.0 / options.outWidth * options.outHeight);
+                height = (int) (width * 1.0 / 620 * 288);
                 //Log.i("wust-lz", "wust-ls===>viewpager width:" + width);
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) viewPager.getLayoutParams();
                 lp.width = width + 20;
@@ -132,6 +135,12 @@ public class MainPageFragment extends BaseFragment {
                 lp.leftMargin = 0;
                 lp.rightMargin = 0;
                 viewPager.setLayoutParams(lp);
+
+                getBannerImg();
+
+                viewPager.setPageTransformer(false, new ScaleTransformer());
+                viewPager.setOffscreenPageLimit(3);
+                viewPager.setAdapter(adapter);
             }
         });
 
@@ -171,9 +180,9 @@ public class MainPageFragment extends BaseFragment {
 
             }
         });
-        viewPager.setPageTransformer(false, new ScaleTransformer());
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setAdapter(adapter);
+//        viewPager.setPageTransformer(false, new ScaleTransformer());
+//        viewPager.setOffscreenPageLimit(3);
+//        viewPager.setAdapter(adapter);
     }
 
     private void getBannerImg() {
@@ -296,19 +305,25 @@ public class MainPageFragment extends BaseFragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             final int realPosition = position % getRealCount();
+            RelativeLayout rl = new RelativeLayout(getContext());
             ImageView iv = new ImageView(getContext());
-            container.addView(iv);
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(width, height);
+            lp2.addRule(RelativeLayout.CENTER_IN_PARENT);
+            rl.addView(iv, lp2);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width + 20, height);
+            container.addView(rl, lp);
             BannerItem data = list.get(realPosition);
             Glide.with(MainPageFragment.this)
                     .load(Constants.BASE_URL + data.getImage())
                     .placeholder(/*R.mipmap.banner_model*/R.mipmap.banner1)
                     .into(iv);
-            return iv;
+            return rl;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
+            container.removeView((RelativeLayout) object);
         }
 
         private void setCurrentItem(int position) {

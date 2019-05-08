@@ -101,6 +101,8 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
     boolean isSendable = false;
     int firstOrder = 0;
 
+    String conpounStr = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -256,6 +258,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                 intent.putExtra("page", realPaperPage * num);
                 intent.putExtra("boundstr", boundStr);
                 intent.putExtra("firstOrder", firstOrder);
+                intent.putExtra("conpounStr", conpounStr);
                 startActivity(intent);
                 break;
         }
@@ -292,6 +295,8 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
             sb.append("满" + cou.getCondition() + "元优惠" + cou.getMoney() + "元");
             sb.append(";");
         }
+
+        conpounStr = sb.toString();
 
         coupon_list_txt.setText(sb.toString());
 

@@ -62,6 +62,8 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
     TextView message_txt;
     @BindView(R.id.first_order_container)
     RelativeLayout first_order_container;
+    @BindView(R.id.coupon_list_txt)
+    TextView coupon_list_txt;
 
     Address address;
     GoodItem good;
@@ -77,6 +79,7 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
     String totalFeeStr;
     String packFeeStr;
     String goodFeeStr;
+    String conpounStr;
 
     String message = "";
 
@@ -108,6 +111,7 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
         num = intent.getIntExtra("num", 1);
         firstOrder = intent.getIntExtra("firstOrder", 0);
         String boundstr = intent.getStringExtra("boundstr");
+        conpounStr = intent.getStringExtra("conpounStr");
         if (!TextUtils.isEmpty(boundstr)) {
             String[] boundStrs = boundstr.split(";");
             condition = Integer.parseInt(boundStrs[0]);
@@ -158,6 +162,8 @@ public class ConfirmOrderActivity extends BaseActivity implements SelectSendTime
         } else {
             discount_txt.setText("满" + condition + "减" + discount + "元");
         }
+
+        coupon_list_txt.setText(conpounStr);
 
         double goodFee = Double.parseDouble(good.getPrice()) * page;
         goodFeeStr = df.format(goodFee);

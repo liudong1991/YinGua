@@ -23,6 +23,7 @@ import club.wustfly.inggua.model.req.UpdateHeadImgParam;
 import club.wustfly.inggua.model.resp.UpdateHeadImgRespDto;
 import club.wustfly.inggua.net.RequestWrapper;
 import club.wustfly.inggua.ui.base.BaseActivity;
+import club.wustfly.inggua.ui.views.NotifyDialog;
 
 public class PersonalInfoActivity extends BaseActivity {
 
@@ -47,7 +48,7 @@ public class PersonalInfoActivity extends BaseActivity {
         setHeaderTopPadding();
     }
 
-    @OnClick({R.id.modify_profile, R.id.modify_nickname})
+    @OnClick({R.id.modify_profile, R.id.modify_nickname, R.id.logout_btn})
     public void handleClick(View view) {
         switch (view.getId()) {
             case R.id.modify_profile:
@@ -57,6 +58,9 @@ public class PersonalInfoActivity extends BaseActivity {
                 break;
             case R.id.modify_nickname:
                 startActivity(ModifyNicknameActivity.class);
+                break;
+            case R.id.logout_btn:
+                new NotifyDialog(this).show();
                 break;
         }
     }

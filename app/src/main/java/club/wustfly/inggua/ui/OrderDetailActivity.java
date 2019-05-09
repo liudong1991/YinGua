@@ -110,11 +110,13 @@ public class OrderDetailActivity extends BaseActivity {
     TextView contact_sender_btn;
     @BindView(R.id.confirm_recieve_goods_btn)
     TextView confirm_recieve_goods_btn;
+    @BindView(R.id.deal_time_container)
+    LinearLayout deal_time_container;
 
 
     private String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
 
-    private String[] values = {"30张", "A4", "单面", "黑白", "每版1页", "1份", "不装订"};
+    private String[] values = {"--", "--", "--", "--", "--", "--", "--"};
 
     Integer id;//订单id
 
@@ -351,6 +353,7 @@ public class OrderDetailActivity extends BaseActivity {
                 } else {
                     sender_container.setVisibility(View.VISIBLE);
                     send_deal_time_container.setVisibility(View.VISIBLE);
+                    deal_time_container.setVisibility(View.GONE);
 
                     pay_btn.setVisibility(View.GONE);
                     payed_status_container.setVisibility(View.VISIBLE);
@@ -365,8 +368,8 @@ public class OrderDetailActivity extends BaseActivity {
                 label3.setTextColor(Color.parseColor("#FD7C13"));
 
                 sender_container.setVisibility(View.VISIBLE);
-
                 send_deal_time_container.setVisibility(View.VISIBLE);
+                deal_time_container.setVisibility(View.VISIBLE);
 
                 pay_btn.setVisibility(View.GONE);
                 payed_status_container.setVisibility(View.GONE);

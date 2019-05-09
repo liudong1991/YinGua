@@ -47,6 +47,7 @@ import club.wustfly.inggua.ui.HowToUseActivity;
 import club.wustfly.inggua.ui.PrintDocumentActivity;
 import club.wustfly.inggua.ui.base.BaseFragment;
 import club.wustfly.inggua.ui.views.LzViewPager;
+import club.wustfly.inggua.ui.views.RoundImageView;
 
 public class MainPageFragment extends BaseFragment {
 
@@ -306,7 +307,9 @@ public class MainPageFragment extends BaseFragment {
         public Object instantiateItem(ViewGroup container, int position) {
             final int realPosition = position % getRealCount();
             RelativeLayout rl = new RelativeLayout(getContext());
-            ImageView iv = new ImageView(getContext());
+            RoundImageView iv = new RoundImageView(getContext());
+            iv.setCornerRadius(8);
+            iv.setType(RoundImageView.TYPE_ROUND);
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
             RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(width, height);
             lp2.addRule(RelativeLayout.CENTER_IN_PARENT);

@@ -209,9 +209,14 @@ public class LoginActivity extends BaseActivity {
 
         Intent zIntent = getIntent();
 
-        Log.i("wust-lz", "wust-lz==>" + zIntent);
+        Log.i("wust-lz", "wust-lz==>intent:" + zIntent);
         Set<String> categories = zIntent.getCategories();
-        if (categories == null || !categories.contains("android.intent.category.LAUNCHER")) {
+        Log.i("wust-lz", "wust-lz==>categories:" + categories);
+        Uri data = zIntent.getData();
+        Log.i("wust-lz", "wust-lz==>data:" + data);
+        String action = zIntent.getAction();
+        Log.i("wust-lz", "wust-lz==>action:" + action);
+        if ("android.intent.action.VIEW".equals(action) && data != null) {
             from = OTHER_APP;
             Uri uri = zIntent.getData();
             String scheme = uri.getScheme();

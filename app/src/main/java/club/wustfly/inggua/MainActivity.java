@@ -146,10 +146,16 @@ public class MainActivity extends BaseActivity {
 //            showToast("您的位置不在服务范围内，不能为您打印");
 //            return;
 //        }
-        if (Build.VERSION.SDK_INT >= 23) {
-            requestFilePermission(intent);
-        } else {
-            handleIntent(intent);
+        String from = intent.getStringExtra("from");
+        if (LoginActivity.OTHER_APP.equals(from)) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                requestFilePermission(intent);
+            } else {
+                handleIntent(intent);
+            }
+        } else if ("logout".equals(from)) {
+            startActivity(LoginActivity.class);
+            finish();
         }
     }
 

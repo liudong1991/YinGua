@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -123,7 +124,8 @@
                 android:paddingLeft="14dp"
                 android:paddingTop="16dp"
                 android:paddingRight="14dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="16dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/sender_logo"
@@ -155,9 +157,9 @@
                             android:id="@+id/sender_name_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="陈先生"
                             android:textColor="#333333"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="陈先生" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -178,9 +180,9 @@
                             android:id="@+id/sender_phone_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="13788889999"
                             android:textColor="#666666"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="13788889999" />
 
                     </LinearLayout>
 
@@ -229,18 +231,18 @@
                             android:id="@+id/address_name_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="三三"
                             android:textColor="#333333"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="三三" />
 
                         <TextView
                             android:id="@+id/address_phone_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:text="13877776666"
                             android:textColor="#999999"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="13877776666" />
 
                     </LinearLayout>
 
@@ -261,9 +263,9 @@
                             android:id="@+id/address_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="广州市海珠区海珠创意园C1座020室"
                             android:textColor="#666666"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="广州市海珠区海珠创意园C1座020室" />
 
 
                     </LinearLayout>
@@ -302,9 +304,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="236859452692"
                         android:textColor="#333333"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        tools:text="236859452692" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -350,9 +352,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥25"
                             android:textColor="#FF0000"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="￥25" />
                     </RelativeLayout>
 
                     <View
@@ -380,9 +382,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥5"
                             android:textColor="#FF0000"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="￥5" />
                     </RelativeLayout>
 
                     <View
@@ -410,9 +412,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥30"
                             android:textColor="#FF0000"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="￥30" />
                     </RelativeLayout>
 
                     <View
@@ -440,9 +442,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="￥30"
                             android:textColor="#FF0000"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="￥30" />
                     </RelativeLayout>
 
 
@@ -495,9 +497,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="123456789"
                         android:textColor="#808080"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="123456789" />
 
                 </LinearLayout>
 
@@ -521,9 +523,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="2018-11-11 01:01:01"
                         android:textColor="#808080"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="2018-11-11 01:01:01" />
 
                 </LinearLayout>
 
@@ -531,7 +533,8 @@
                     android:id="@+id/send_deal_time_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
 
                     <LinearLayout
@@ -554,13 +557,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="2018-11-11 01:01:01"
                             android:textColor="#808080"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="2018-11-11 01:01:01" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/deal_time_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -580,9 +584,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="2018-11-11 01:01:01"
                             android:textColor="#808080"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="2018-11-11 01:01:01" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -623,7 +627,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/contact_sender_btn"

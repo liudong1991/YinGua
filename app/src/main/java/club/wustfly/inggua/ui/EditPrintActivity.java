@@ -330,7 +330,15 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
         EDIT_SINGLE_DOUBLE_PAGE.setItems(isSigleList.toArray(new String[isSigleList.size()]));
         PAPER_SPECIFICATION.setItems(sizeList.toArray(new String[sizeList.size()]));
 
-        item = new GoodItem(sizeList.get(0), isSigleList.get(0), colorList.get(0), layoutList.get(0), bindingList.get(0));
+        item = good.get(0);
+//        item = new GoodItem(sizeList.get(0), isSigleList.get(0), colorList.get(0), layoutList.get(0), bindingList.get(0));
+        //"A4", "单页", "黑白", "每版1页", "不装订"
+        selectStatus.put(PAPER_SPECIFICATION, sizeList.indexOf(item.getSize()));
+        selectStatus.put(EDIT_SINGLE_DOUBLE_PAGE, isSigleList.indexOf(item.getIssingle()));
+        selectStatus.put(EDIT_COLOR, colorList.indexOf(item.getColor()));
+        selectStatus.put(EDIT_LAYOUT, layoutList.indexOf(item.getLayout()));
+        selectStatus.put(SELCT_BOOKBINDING, bindingList.indexOf(item.getBinding()));
+
         bookbinding_txt.setText(item.getBinding());
         layout_txt.setText(item.getLayout());
         color_txt.setText(item.getColor());

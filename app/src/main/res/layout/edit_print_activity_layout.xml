@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -70,18 +71,18 @@
                         android:id="@+id/address_name_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="三三"
                         android:textColor="#333333"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="三三" />
 
                     <TextView
                         android:id="@+id/address_phone_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:text="13877776666"
                         android:textColor="#999999"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="13877776666" />
 
                 </LinearLayout>
 
@@ -102,9 +103,9 @@
                         android:id="@+id/address_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="广州市海珠区海珠创意园C1座020室"
                         android:textColor="#666666"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="广州市海珠区海珠创意园C1座020室" />
 
 
                 </LinearLayout>

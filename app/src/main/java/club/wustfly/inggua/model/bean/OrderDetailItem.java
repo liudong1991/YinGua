@@ -1,7 +1,5 @@
 package club.wustfly.inggua.model.bean;
 
-import java.util.List;
-
 import club.wustfly.inggua.model.BaseModel;
 
 public class OrderDetailItem extends BaseModel {

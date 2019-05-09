@@ -244,7 +244,7 @@ public class OrderDetailActivity extends BaseActivity {
         String addtime = order.getAddtime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (!TextUtils.isEmpty(addtime)) {
-            long l = Long.parseLong(addtime);
+            long l = Long.parseLong(addtime) * 1000;
             Date date = new Date(l);
             create_time_txt.setText(sdf.format(date));
         } else {
@@ -252,7 +252,7 @@ public class OrderDetailActivity extends BaseActivity {
         }
         final String deliverytime = order.getDeliverytime();
         if (!TextUtils.isEmpty(deliverytime)) {
-            long l = Long.parseLong(deliverytime);
+            long l = Long.parseLong(deliverytime) * 1000;
             Date date = new Date(l);
             send_time_txt.setText(sdf.format(date));
         } else {
@@ -260,7 +260,7 @@ public class OrderDetailActivity extends BaseActivity {
         }
         String finishtime = order.getFinishtime();
         if (!TextUtils.isEmpty(finishtime)) {
-            long l = Long.parseLong(finishtime);
+            long l = Long.parseLong(finishtime) * 1000;
             Date date = new Date(l);
             deal_time_txt.setText(sdf.format(date));
         } else {

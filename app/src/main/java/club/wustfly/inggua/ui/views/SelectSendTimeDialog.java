@@ -90,10 +90,10 @@ public class SelectSendTimeDialog extends Dialog {
 
             sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-            Date time_07_00 = sdf.parse(d + " 07:00");
-            Date time_11_30 = sdf.parse(d + " 11:30");
-            Date time_16_30 = sdf.parse(d + " 16:30");
-            Date time_21_00 = sdf.parse(d + " 21:00");
+            Date time_06_45 = sdf.parse(d + " 06:45");
+            Date time_11_15 = sdf.parse(d + " 11:15");
+            Date time_16_15 = sdf.parse(d + " 16:15");
+
             Date time_20_45 = sdf.parse(d + " 20:45");
             Date time_23_30 = sdf.parse(d + " 23:30");
 
@@ -105,13 +105,13 @@ public class SelectSendTimeDialog extends Dialog {
                 list_left.add(dat1);
                 list_left.add(dat2);
 
-                if (now.before(time_07_00)) {
+                if (now.before(time_06_45)) {
                     list_right1.addAll(Arrays.asList(data_right));
-                } else if (now.before(time_11_30)) {
+                } else if (now.before(time_11_15)) {
                     list_right1.add("11:30~13:00");
                     list_right1.add("16:30~18:00");
                     list_right1.add("21:00~22:30");
-                } else if (now.before(time_16_30)) {
+                } else if (now.before(time_16_15)) {
                     list_right1.add("16:30~18:00");
                     list_right1.add("21:00~22:30");
                 } else {

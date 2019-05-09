@@ -220,10 +220,10 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void fillData(final OrderDetailItem order) {
-        List<Staff> staffs = order.getStaff();
-        if (staffs != null && staffs.size() > 0) {
-            phone = staffs.get(0).getPhone();
-            sender_name_txt.setText(staffs.get(0).getStaffname());
+        Staff staff = order.getStaff();
+        if (staff != null) {
+            phone = staff.getPhone();
+            sender_name_txt.setText(staff.getStaffname());
             sender_phone_txt.setText(phone);
         }
 

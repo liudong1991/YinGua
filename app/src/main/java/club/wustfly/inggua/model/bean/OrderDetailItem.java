@@ -51,7 +51,7 @@ public class OrderDetailItem extends BaseModel {
     private String color;
     private String layout;
     private String binding;
-    private List<Staff> staff;
+    private Staff staff;
 
     public Integer getId() {
         return id;
@@ -213,11 +213,11 @@ public class OrderDetailItem extends BaseModel {
         this.binding = binding;
     }
 
-    public List<Staff> getStaff() {
+    public Staff getStaff() {
         return staff;
     }
 
-    public void setStaff(List<Staff> staff) {
+    public void setStaff(Staff staff) {
         this.staff = staff;
     }
 }

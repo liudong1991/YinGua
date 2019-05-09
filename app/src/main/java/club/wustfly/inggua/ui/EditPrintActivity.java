@@ -3,6 +3,7 @@ package club.wustfly.inggua.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -86,7 +87,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
     String fid = "";
     ObtainEditRespDto respDto;
 
-    GoodItem item = new GoodItem("A4", "单页", "黑白", "每版1页", "不装订");
+    GoodItem item = new GoodItem("--", "--", "--", "--", "--");
 
     int num = 1; //份数
     int totalPage = 0; // 每份页数
@@ -125,6 +126,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("wust-lz", "wust-lz==>onResume()");
         obtainEdit();
     }
 
@@ -330,7 +332,7 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
         EDIT_SINGLE_DOUBLE_PAGE.setItems(isSigleList.toArray(new String[isSigleList.size()]));
         PAPER_SPECIFICATION.setItems(sizeList.toArray(new String[sizeList.size()]));
 
-        item = good.get(0);
+        item = new GoodItem(good.get(0));
 //        item = new GoodItem(sizeList.get(0), isSigleList.get(0), colorList.get(0), layoutList.get(0), bindingList.get(0));
         //"A4", "单页", "黑白", "每版1页", "不装订"
         selectStatus.put(PAPER_SPECIFICATION, sizeList.indexOf(item.getSize()));
@@ -357,7 +359,6 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
 
     private void queryPrice() {
         List<GoodItem> good = respDto.getGood();
-        boolean flag = false;
         for (GoodItem g : good) {
             if (item.equals(g)) {
                 try {
@@ -368,16 +369,16 @@ public class EditPrintActivity extends BaseActivity implements MyDialog.OnDialog
                     item.setPackfree(g.getPackfree());
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
+                    price = 0;
+                    packFee = 0;
+                    item.setId(null);
                 }
-                flag = true;
-                break;
+                return;
             }
         }
-        if (!flag) {
-            price = 0;
-            packFee = 0;
-            item.setId(null);
-        }
+        price = 0;
+        packFee = 0;
+        item.setId(null);
     }
 
     private void calcuTotalFee() {

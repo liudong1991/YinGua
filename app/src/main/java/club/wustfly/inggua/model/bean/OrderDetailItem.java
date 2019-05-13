@@ -50,6 +50,7 @@ public class OrderDetailItem extends BaseModel {
     private String layout;
     private String binding;
     private Staff staff;
+    private String apptime;
 
     public Integer getId() {
         return id;
@@ -217,5 +218,13 @@ public class OrderDetailItem extends BaseModel {
 
     public void setStaff(Staff staff) {
         this.staff = staff;
+    }
+
+    public String getApptime() {
+        return apptime;
+    }
+
+    public void setApptime(String apptime) {
+        this.apptime = apptime;
     }
 }

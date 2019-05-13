@@ -112,6 +112,8 @@ public class OrderDetailActivity extends BaseActivity {
     TextView confirm_recieve_goods_btn;
     @BindView(R.id.deal_time_container)
     LinearLayout deal_time_container;
+    @BindView(R.id.user_s_time_txt)
+    TextView user_s_time_txt;
 
 
     private String[] labels = {"打印张数", "纸张规格", "单双面", "颜色", "布局", "份数", "装订"};
@@ -263,6 +265,9 @@ public class OrderDetailActivity extends BaseActivity {
         } else {
             create_time_txt.setText("");
         }
+
+        user_s_time_txt.setText(order.getApptime());
+
         final String deliverytime = order.getDeliverytime();
         if (!TextUtils.isEmpty(deliverytime)) {
             long l = Long.parseLong(deliverytime) * 1000;

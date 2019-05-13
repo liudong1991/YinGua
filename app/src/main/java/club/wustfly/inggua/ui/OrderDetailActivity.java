@@ -25,6 +25,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import club.wustfly.inggua.R;
 import club.wustfly.inggua.model.bean.OrderDetailItem;
 import club.wustfly.inggua.model.bean.Staff;
@@ -122,6 +123,8 @@ public class OrderDetailActivity extends BaseActivity {
     OrderDetailItem order;
 
     String phone = "";
+    String merchantPhone = "15521439868";
+    String phoneZ = "";
 
 
     @Override
@@ -174,6 +177,16 @@ public class OrderDetailActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         getOrderDetail();
+    }
+
+    @OnClick({R.id.contact_merchant})
+    public void handleClick(View view) {
+        switch (view.getId()) {
+            case R.id.contact_merchant:
+                phoneZ = merchantPhone;
+                showContacts();
+                break;
+        }
     }
 
     private void fillOrderDetail() {
@@ -286,6 +299,7 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(phone)) return;
+                phoneZ = phone;
                 showContacts();
             }
         });
@@ -379,7 +393,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     private void callSender() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        Uri data = Uri.parse("tel:" + phone);
+        Uri data = Uri.parse("tel:" + phoneZ);
         intent.setData(data);
         startActivity(intent);
     }

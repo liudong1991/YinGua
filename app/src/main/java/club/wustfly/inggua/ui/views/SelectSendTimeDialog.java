@@ -33,7 +33,7 @@ public class SelectSendTimeDialog extends Dialog {
     LoopView loopView_right;
 
     String[] data_left = {"今天（周二）", "明天（周三）"};
-    String[] data_right = {"7:00~8:00", "11:30~13:00", "16:30~18:00", "21:00~22:30"};
+    String[] data_right = {/*"7:00~8:00",*/ "11:30~13:00", "16:30~18:00", "21:00~22:30"};
 
     Context mContext;
 
